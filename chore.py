@@ -1,10 +1,9 @@
 from PIL import Image, ImageTk
 from pygame import mixer
 
-def resize(path,mag_w=1,mag_h=1) -> ImageTk.PhotoImage: #画像の成形
+def resize(path,w=1,h=1) -> ImageTk.PhotoImage: #画像の成形
     img = Image.open(path)
-    h,w = img.size
-    img = img.resize((int(w*mag_w),int(h*mag_h)))
+    img = img.resize((int(w),int(h)))
     tkimg = ImageTk.PhotoImage(img)
     return tkimg
 
