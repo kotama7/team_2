@@ -6,26 +6,37 @@ import time
 def new_game(): #最初のスタート画面
     new_game_b.destroy()
     canvas.delete('BG_start')
-    path = 'text/introductioin.txt'
-    narration(path,scr_w/2,scr_h/2)
+    path = 'text/introduction.txt'
+    narration(path,0,scr_h/2)
+    root.mainloop()
 
-def narration(path,x,y):
-    txt = ''
+def start():
+    print('start')
+
+def narration(path,x_pos,y_pos):
+    def pop(i,label):
+        try:
+            label.destroy()
+        except:
+            pass
+        label = tkinter.Label(root,text=narrative[i].strip(),font=('System',24))
+        label.place(x=x_pos,y=y_pos)
+        print(narrative[i])
+        if i != len(narrative)-1:
+            root.after(1000,pop,i+1,label)
+        else:
+            root.after(3000,start)
+        root.mainloop()
     with open(path,'r',encoding='utf-8') as f:
-        narrative = f.read()
-    for ele in narrative:
-        txt += ele
-        label = tkinter.Label(root,text=txt)
-        label.pack(x=x,y=y)
-        time.sleep(0.5)
-        label.destroy()
-    
+        narrative = f.readlines()
+    root.after(1000,pop,0,None)
+
 
 scr_w,scr_h= pyautogui.size()
 chore.BGM('./music/BGM/bird.mp3')
 root = tkinter.Tk()
 root.geometry(f'{scr_w}x{scr_h}')
-canvas = tkinter.Canvas(width=scr_w,height=scr_h,bg='black')
+canvas = tkinter.Canvas(width=scr_w,height=scr_h,bg='white')
 canvas.pack()
 s_img_1 = chore.resize('./img/screen/start.png',scr_w,scr_h)
 canvas.create_image(scr_w/2,scr_h/2,image=s_img_1,tag='BG_start')

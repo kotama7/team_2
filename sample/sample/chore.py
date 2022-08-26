@@ -14,7 +14,7 @@ def music(path):
         pass
     mixer.init()
     mixer.music.load(path)
-    #mixer.music.play(loops=0)
+    mixer.music.play(loops=0)
 
 def roommaker(x,y):
     ls = []
