@@ -1,11 +1,25 @@
 import tkinter
 import pyautogui
 import chore
+import time
 
-def new_game():
+def new_game(): #最初のスタート画面
     new_game_b.destroy()
     canvas.delete('BG_start')
+    path = 'text/introductioin.txt'
+    narration(path,scr_w/2,scr_h/2)
 
+def narration(path,x,y):
+    txt = ''
+    with open(path,'r',encoding='utf-8') as f:
+        narrative = f.read()
+    for ele in narrative:
+        txt += ele
+        label = tkinter.Label(root,text=txt)
+        label.pack(x=x,y=y)
+        time.sleep(0.5)
+        label.destroy()
+    
 
 scr_w,scr_h= pyautogui.size()
 chore.BGM('./music/BGM/bird.mp3')
