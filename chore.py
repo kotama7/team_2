@@ -6,6 +6,7 @@ def resize(path,w=1,h=1) -> ImageTk.PhotoImage: #画像の成形
     img = img.resize((int(w),int(h)))
     tkimg = ImageTk.PhotoImage(img)
     return tkimg
+    
 
 def BGM(path):    #BGMの再生
     try:
@@ -16,7 +17,16 @@ def BGM(path):    #BGMの再生
     mixer.music.load(path)
     mixer.music.play(loops=0)
 
+def roommaker(path):    #mapの作成
+    map = []
+    with open(path,'r') as f:
+        for ele in f:
+            map.append(ele.split(','))
+    return map
+
+
 def SE(path):   #効果音の再生
     mixer.init()
     mixer.music.load(path)
     mixer.music.play()
+
