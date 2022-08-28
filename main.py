@@ -108,6 +108,32 @@ def move_proc(key):
             else:
                 condition = True
             root.mainloop()
+    if key == 'Left' and map[player_loc[1]][player_loc[0]-1] != 1:
+        condition = False
+        player_loc[0] -= 1
+        if boo:
+            def move():
+                canvas.delete(location_name)
+                map_position[0] += tile_x/10
+                canvas.create_image(map_position[0],map_position[1],image=map_img,tag=location_name)
+            i += 1
+            if i != 10:
+                root.after(100,move)
+            else:
+                condition = True
+            root.mainloop()
+        else:
+            def move():
+                canvas.delete('Player')
+                player_screen_loc[0] -= tile_x/10
+                canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
+            i += 1
+            if i != 10:
+                root.after(100,move)
+            else:
+                condition = True
+            root.mainloop()
+
 
 
 
