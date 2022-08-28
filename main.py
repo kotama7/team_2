@@ -5,7 +5,7 @@ import chore
 map = []
 map_img = tkinter.PhotoImage
 player_img = tkinter.PhotoImage
-boo = True
+boo = True  #screenのscrollのbool値
 scr_w,scr_h= pyautogui.size()
 data_dict = {
     'corrider':['./data/corrider.txt','./img/map/corrider.png',[2*scr_w,2*scr_h],[scr_w,scr_h],[scr_w/2,scr_h/2],[21,23]],
@@ -31,7 +31,7 @@ def action(e):
         move_proc(key)
 
 def move_proc(key):
-    global condition, map_position, location_name, player_loc
+    global condition, map_position, location_name, player_loc, player_screen_loc
     i = 0
     if key == 'Up' and map[player_loc[1]-1][player_loc[0]] != 1:
         condition = False
@@ -40,7 +40,7 @@ def move_proc(key):
             def move():
                 canvas.delete(location_name)
                 map_position[1] += tile_y/10
-                canvas.create_image(map_position[0],map_position[1],image=player_img,tag=location_name)
+                canvas.create_image(map_position[0],map_position[1],image=map_img,tag=location_name)
             i += 1
             if i != 10:
                 root.after(100,move)
@@ -50,8 +50,65 @@ def move_proc(key):
         else:
             def move():
                 canvas.delete('Player')
-                map_position[1] += tile_y/10
-                canvas.create_image(map_position[0],map_position[1],image=player_img,tag=location_name)
+                player_screen_loc[1] -= tile_y/10
+                canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
+            i += 1
+            if i != 10:
+                root.after(100,move)
+            else:
+                condition = True
+            root.mainloop()
+    if key == 'Down' and map[player_loc[1]+1][player_loc[0]] != 1:
+        condition = False
+        player_loc[1] += 1
+        if boo:
+            def move():
+                canvas.delete(location_name)
+                map_position[1] -= tile_y/10
+                canvas.create_image(map_position[0],map_position[1],image=map_img,tag=location_name)
+            i += 1
+            if i != 10:
+                root.after(100,move)
+            else:
+                condition = True
+            root.mainloop()
+        else:
+            def move():
+                canvas.delete('Player')
+                player_screen_loc[1] += tile_y/10
+                canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
+            i += 1
+            if i != 10:
+                root.after(100,move)
+            else:
+                condition = True
+            root.mainloop()
+    if key == 'Right' and map[player_loc[1]][player_loc[0]+1] != 1:
+        condition = False
+        player_loc[0] += 1
+        if boo:
+            def move():
+                canvas.delete(location_name)
+                map_position[0] -= tile_x/10
+                canvas.create_image(map_position[0],map_position[1],image=map_img,tag=location_name)
+            i += 1
+            if i != 10:
+                root.after(100,move)
+            else:
+                condition = True
+            root.mainloop()
+        else:
+            def move():
+                canvas.delete('Player')
+                player_screen_loc[0] += tile_x/10
+                canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
+            i += 1
+            if i != 10:
+                root.after(100,move)
+            else:
+                condition = True
+            root.mainloop()
+
 
 
 
