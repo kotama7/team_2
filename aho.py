@@ -8,7 +8,7 @@ player_img = tkinter.PhotoImage
 boo = True  #screenのscrollのbool値
 scr_w,scr_h= pyautogui.size()
 data_dict = {
-    'corrider':['./data/corrider.txt','./img/map/corrider.png',[2*scr_w,2*scr_h],[scr_w,scr_h],[scr_w/2,scr_h/2],[0,0]],
+    'corrider':['./data/corrider.txt','./img/map/corrider.png',[2*scr_w,2*scr_h],[297*scr_w/400,-29*scr_h/100],[scr_w/2,scr_h/2],[24,-3]],
     'class_room_A':['./data/class_room.txt','./img/map/class_room.png',[scr_w,scr_h],[],[],[]],
 }
 # 辞書の内容は[map_path,image_path,image_size,image_position,player_position,player_location] 
@@ -31,16 +31,19 @@ def action(e):
         move_proc(key)
 
 def move_proc(key):
-    global condition, map_position, location_name, player_loc, player_screen_loc
+    global condition, map_position, location_name, player_loc, player_screen_loc, data
     i = 0
+    print(player_loc)
+    print(map[player_loc[1]-1][player_loc[0]])
     if key == 'Up' and map[player_loc[1]-1][player_loc[0]] != 1:
         condition = False
         player_loc[1] -= 1
         if boo:
             def move():
                 canvas.delete(location_name)
-                map_position[1] += tile_y/10
+                map_position[1] += 3*tile_y/25
                 canvas.create_image(map_position[0],map_position[1],image=map_img,tag=location_name)
+                canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
             i += 1
             if i != 10:
                 root.after(100,move)
@@ -50,8 +53,9 @@ def move_proc(key):
         else:
             def move():
                 canvas.delete('Player')
-                player_screen_loc[1] -= tile_y/10
+                player_screen_loc[1] -= 3*tile_y/25
                 canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
+                canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
             i += 1
             if i != 10:
                 root.after(100,move)
@@ -64,8 +68,9 @@ def move_proc(key):
         if boo:
             def move():
                 canvas.delete(location_name)
-                map_position[1] -= tile_y/10
+                map_position[1] -= 3*tile_y/25
                 canvas.create_image(map_position[0],map_position[1],image=map_img,tag=location_name)
+                canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
             i += 1
             if i != 10:
                 root.after(100,move)
@@ -75,8 +80,9 @@ def move_proc(key):
         else:
             def move():
                 canvas.delete('Player')
-                player_screen_loc[1] += tile_y/10
+                player_screen_loc[1] += 3*tile_y/25
                 canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
+                canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
             i += 1
             if i != 10:
                 root.after(100,move)
@@ -89,8 +95,9 @@ def move_proc(key):
         if boo:
             def move():
                 canvas.delete(location_name)
-                map_position[0] -= tile_x/10
+                map_position[0] -= 3*tile_x/50
                 canvas.create_image(map_position[0],map_position[1],image=map_img,tag=location_name)
+                canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
             i += 1
             if i != 10:
                 root.after(100,move)
@@ -100,8 +107,9 @@ def move_proc(key):
         else:
             def move():
                 canvas.delete('Player')
-                player_screen_loc[0] += tile_x/10
+                player_screen_loc[0] += 3*tile_x/50
                 canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
+                canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
             i += 1
             if i != 10:
                 root.after(100,move)
@@ -114,8 +122,9 @@ def move_proc(key):
         if boo:
             def move():
                 canvas.delete(location_name)
-                map_position[0] += tile_x/10
+                map_position[0] += 3*tile_x/50
                 canvas.create_image(map_position[0],map_position[1],image=map_img,tag=location_name)
+                canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
             i += 1
             if i != 10:
                 root.after(100,move)
@@ -125,8 +134,9 @@ def move_proc(key):
         else:
             def move():
                 canvas.delete('Player')
-                player_screen_loc[0] -= tile_x/10
+                player_screen_loc[0] -= 3*tile_x/50
                 canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
+                canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
             i += 1
             if i != 10:
                 root.after(100,move)
@@ -145,7 +155,7 @@ def set_up(location):    #場面転換
     map_img = chore.resize(data[1],data[2][0],data[2][1])
     player_screen_loc = data[3]
     canvas.create_image(data[3][0],data[3][1],image=map_img,tag=location)
-    player_img = chore.resize('./img/player/front.png',scr_w/10,scr_h/10)    #随時変更の必要あり
+    player_img = chore.resize('./img/player/front.png',scr_w/15,scr_h/15)    #随時変更の必要あり
     tile_x = data[4][0]
     tile_y = data[4][1]
     canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')

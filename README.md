@@ -1,1 +1,0 @@
-# team_2 is composed by kotama kaede shugo murakumo
