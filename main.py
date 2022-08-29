@@ -10,8 +10,20 @@ scr_w,scr_h= pyautogui.size()
 data_dict = {
     'corrider':['./data/corrider.txt','./img/map/corrider.png',[2*scr_w,2*scr_h],[61*scr_w/80,-41*scr_h/500],[scr_w/2,scr_h/2],[23,21]],  #初期位置調整終了
     'class_room_A':['./data/class_room.txt','./img/map/class_room.png',[scr_w,scr_h],[0,0],[scr_w/2,scr_h/2],[11,9]],
+    'gym':['./data/gym.txt','./img/map/gym.png',[scr_w,scr_h],[0,0],[scr_w/2,scr_h/2],[11,9]],
+    'infirmary':['./data/infirmary.txt','./img/map/infirmary.png',[scr_w,scr_h],[0,0],[scr_w/2,scr_h/2],[11,9]],
+    'auditorium': ['./data/auditorium.txt','./data/auditorium.png',[scr_w,scr_h],[0,0],[scr_w/2,scr_h/2],[11,9]],
+
 }
-# 辞書の内容は[map_path,image_path,image_size,image_position,player_position,player_location] 
+# 辞書の内容は[map_path,image_path,image_size,image_position,player_position,player_location]
+ 
+corrider_back_dict = {
+    'gym': [[61*scr_w/80,-41*scr_h/500],[23,21]],
+    'class_room_A': [[61*scr_w/80,-41*scr_h/500],[23,21]],
+    'infirmary': [[61*scr_w/80,-41*scr_h/500],[23,21]],
+    'auditorium': [[61*scr_w/80,-41*scr_h/500],[23,21]],
+}
+# 辞書の内容は[image_position,player_location] 
 
 def new_game(): #最初のスタート画面
     global condition, location_name
@@ -19,7 +31,7 @@ def new_game(): #最初のスタート画面
     canvas.delete('BG_start')
     location_name = 'corrider'
     set_up(location_name) 
-    condition = True
+    condition = True    #key受付の有無
     root.bind('<KeyPress>',action)
     root.mainloop()
 
@@ -29,12 +41,36 @@ def action(e):
     if key in move_ls:
         move_proc(key)
 
+def event():
+    pass
+
+def screen_change_check():
+    global location_name
+    if map[player_loc[1]][player_loc[0]] == '2':    #体育館移動
+        if location_name == 'corrider':
+            location_name = 'gym'
+            set_up(location_name)
+        else:
+            back_corrider_setup(location_name)
+            location_name = 'corrider'
+    if map[player_loc[1]][player_loc[0]] == '3':    #階段イベント    
+        event('stairs_death')
+    if map[player_loc[1]][player_loc[0]] == '4':    #教室A移動
+        if location_name == 'corrider':
+            location_name = 'class_room_A'
+            set_up(location_name)
+        else:
+            back_corrider_setup(location_name)
+            location_name = 'corrider'
+
 def move_proc(key):
-    global condition, map_position, location_name, player_loc, player_screen_loc
+    global condition, map_position, location_name, player_loc, player_screen_loc, player_img
     i = 0
-    if key == 'Up' and map[player_loc[1]-1][player_loc[0]] != 1:
+    if key == 'Up' and map[player_loc[1]-1][player_loc[0]] != '1':
         condition = False
         player_loc[1] -= 1
+        path = './img/player/back.py'
+        player_img = chore.resize(path,scr_w/15,scr_h/15)
         if boo:
             def move():
                 canvas.delete(location_name)
@@ -47,6 +83,7 @@ def move_proc(key):
             if i != 10:
                 root.after(100,move)
             else:
+                screen_change_check()
                 condition = True
             root.mainloop()
         else:
@@ -61,10 +98,13 @@ def move_proc(key):
             if i != 10:
                 root.after(100,move)
             else:
+                screen_change_check()
                 condition = True
             root.mainloop()
-    if key == 'Down' and map[player_loc[1]+1][player_loc[0]] != 1:
+    if key == 'Down' and map[player_loc[1]+1][player_loc[0]] != '1':
         condition = False
+        path = './img/player/front.py'
+        player_img = chore.resize(path,scr_w/15,scr_h/15)
         player_loc[1] += 1
         if boo:
             def move():
@@ -78,6 +118,7 @@ def move_proc(key):
             if i != 10:
                 root.after(100,move)
             else:
+                screen_change_check()
                 condition = True
             root.mainloop()
         else:
@@ -92,10 +133,13 @@ def move_proc(key):
             if i != 10:
                 root.after(100,move)
             else:
+                screen_change_check()
                 condition = True
             root.mainloop()
-    if key == 'Right' and map[player_loc[1]][player_loc[0]+1] != 1:
+    if key == 'Right' and map[player_loc[1]][player_loc[0]+1] != '1':
         condition = False
+        path = './img/player/right.py'
+        player_img = chore.resize(path,scr_w/15,scr_h/15)
         player_loc[0] += 1
         if boo:
             def move():
@@ -109,6 +153,7 @@ def move_proc(key):
             if i != 10:
                 root.after(100,move)
             else:
+                screen_change_check()
                 condition = True
             root.mainloop()
         else:
@@ -123,10 +168,13 @@ def move_proc(key):
             if i != 10:
                 root.after(100,move)
             else:
+                screen_change_check()
                 condition = True
             root.mainloop()
-    if key == 'Left' and map[player_loc[1]][player_loc[0]-1] != 1:
+    if key == 'Left' and map[player_loc[1]][player_loc[0]-1] != '1':
         condition = False
+        path = './img/player/left.py'
+        player_img = chore.resize(path,scr_w/15,scr_h/15)
         player_loc[0] -= 1
         if boo:
             def move():
@@ -140,6 +188,7 @@ def move_proc(key):
             if i != 10:
                 root.after(100,move)
             else:
+                screen_change_check()
                 condition = True
             root.mainloop()
         else:
@@ -154,8 +203,24 @@ def move_proc(key):
             if i != 10:
                 root.after(100,move)
             else:
+                screen_change_check()
                 condition = True
-            root.mainloop()        
+            root.mainloop()
+         
+def back_corrider_setup(location):
+    global map, map_img, player_img, boo, player_loc, tile_x, tile_y, map_position, player_screen_loc
+    data = corrider_back_dict[location]
+    map = chore.roommaker('./data/corrider.txt')
+    map_img = chore.resize('./img/map/corrider.png',2*scr_w,2*scr_h)
+    player_screen_loc = data[0]
+    canvas.create_image(data[0][0],data[0][1],image=map_img,tag=location)
+    player_img = chore.resize('./img/player/front.png',scr_w/15,scr_h/15)    #縦廊下の1/3になるように調整
+    tile_x = scr_w/2
+    tile_y = scr_h/2
+    canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
+    map_position = data[0]
+    player_loc = data[1]
+    boo = True
 
 def set_up(location):    #場面転換
     global map, map_img, player_img, boo, player_loc, tile_x, tile_y, map_position, player_screen_loc
