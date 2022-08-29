@@ -8,11 +8,10 @@ player_img = tkinter.PhotoImage
 boo = True  #screenのscrollのbool値
 scr_w,scr_h= pyautogui.size()
 data_dict = {
-    'corrider':['./data/corrider.txt','./img/map/corrider.png',[2*scr_w,2*scr_h],[scr_w,scr_h],[scr_w/2,scr_h/2],[21,23]],
-    'class_room_A':['./data/class_room.txt','./img/map/class_room.png',[scr_w,scr_h],[],[],[]],
+    'corrider':['./data/corrider.txt','./img/map/corrider.png',[2*scr_w,2*scr_h],[scr_w,scr_h],[scr_w/2,scr_h/2],[23,21]],
+    'class_room_A':['./data/class_room.txt','./img/map/class_room.png',[scr_w,scr_h],[0,0],[scr_w/2,scr_h/2],[11,9]],
 }
 # 辞書の内容は[map_path,image_path,image_size,image_position,player_position,player_location] 
-
 
 def new_game(): #最初のスタート画面
     global condition, location_name
@@ -33,6 +32,10 @@ def action(e):
 def move_proc(key):
     global condition, map_position, location_name, player_loc, player_screen_loc
     i = 0
+    boo = False
+    def recover():
+        canvas.delete('Player')
+        canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
     if key == 'Up' and map[player_loc[1]-1][player_loc[0]] != 1:
         condition = False
         player_loc[1] -= 1
@@ -45,6 +48,7 @@ def move_proc(key):
             if i != 10:
                 root.after(100,move)
             else:
+                root.after(0,recover)
                 condition = True
             root.mainloop()
         else:
@@ -70,6 +74,7 @@ def move_proc(key):
             if i != 10:
                 root.after(100,move)
             else:
+                root.after(0,recover)
                 condition = True
             root.mainloop()
         else:
@@ -95,6 +100,7 @@ def move_proc(key):
             if i != 10:
                 root.after(100,move)
             else:
+                root.after(0,recover)
                 condition = True
             root.mainloop()
         else:
@@ -120,6 +126,7 @@ def move_proc(key):
             if i != 10:
                 root.after(100,move)
             else:
+                root.after(0,recover)
                 condition = True
             root.mainloop()
         else:
@@ -133,10 +140,6 @@ def move_proc(key):
             else:
                 condition = True
             root.mainloop()
-
-
-
-
 
 def set_up(location):    #場面転換
     global map, map_img, player_img, boo, player_loc, tile_x, tile_y, map_position, player_screen_loc
@@ -155,7 +158,6 @@ def set_up(location):    #場面転換
         boo = True
     else:
         boo = False
-
 
 chore.BGM('./music/BGM/bird.mp3')
 root = tkinter.Tk()
