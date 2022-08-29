@@ -10,6 +10,7 @@ scr_w,scr_h= pyautogui.size()
 data_dict = {
     'corrider':['./data/corrider.txt','./img/map/corrider.png',[2*scr_w,2*scr_h],[61*scr_w/80,-41*scr_h/500],[scr_w/2,scr_h/2],[23,21]],  #初期位置調整終了
     'class_room_A':['./data/class_room.txt','./img/map/class_room.png',[scr_w,scr_h],[0,0],[scr_w/2,scr_h/2],[11,9]],
+    'class_room_B':['./data/class_room.txt','./img/map/class_room.png',[scr_w,scr_h],[0,0],[scr_w/2,scr_h/2],[11,9]],
     'gym':['./data/gym.txt','./img/map/gym.png',[scr_w,scr_h],[0,0],[scr_w/2,scr_h/2],[11,9]],
     'infirmary':['./data/infirmary.txt','./img/map/infirmary.png',[scr_w,scr_h],[0,0],[scr_w/2,scr_h/2],[11,9]],
     'auditorium': ['./data/auditorium.txt','./data/auditorium.png',[scr_w,scr_h],[0,0],[scr_w/2,scr_h/2],[11,9]],
