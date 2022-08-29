@@ -22,27 +22,43 @@ def new_game(): #最初のスタート画面
     location_name = 'corrider'
     set_up(location_name) 
     condition = True    #key受付の有無
-    root.bind('<KeyPress>',action)
+    root.bind('<KeyPress>',push)
+    root.bind('<KeyRelease>',action)
     root.mainloop()
 
-def action(e):
+def push(e):
+    global key
     key = e.keysym
+
+def action(e):    
     move_ls = ['Up','Down','Right','Left']
     if key in move_ls:
         move_proc(key)
+    if key == 'm':
+        whole_map()
 
-def event():
-    pass
+def whole_map():
+    global condition
+    condition = False
+    canvas.create_image(0,0,image=whole_map_img,tag='whole_map')
+    root.after(2500,map_delete)
+
+def map_delete():
+    global condition
+    canvas.delete('whole_map')
+    condition = True
 
 def screen_change_check():
     global location_name
-    destination, vector = place_check.check(map[player_loc[1]][player_loc[0]],location_name)
-    if vector:
-        location_name = destination
-        set_up(location_name)
-    else:
-        back_corrider_setup(location_name)
-        location_name = destination
+    check_boo, destination, vector = place_check.check(map[player_loc[1]][player_loc[0]],location_name)
+    if check_boo:
+        print('hello')
+        if vector:
+            location_name = destination
+            set_up(location_name)
+        else:
+            back_corrider_setup(location_name)
+            location_name = destination
 
 def move_proc(key):
     global condition, map_position, location_name, player_loc, player_screen_loc, player_img
@@ -224,11 +240,12 @@ def set_up(location):    #場面転換
 chore.BGM('./music/BGM/bird.mp3')
 root = tkinter.Tk()
 root.geometry(f'{scr_w}x{scr_h}')
-canvas = tkinter.Canvas(width=scr_w,height=scr_h,bg='white')
+canvas = tkinter.Canvas(width=scr_w,height=scr_h,bg='black')
 canvas.pack()
 s_img_1 = chore.resize('./img/screen/start.png',scr_w,scr_h)
 canvas.create_image(scr_w/2,scr_h/2,image=s_img_1,tag='BG_start')
 b_img_1 = chore.resize('./img/buttun/new_game.png',scr_w/5,scr_h/10)
 new_game_b = tkinter.Button(image=b_img_1,command=new_game)
 new_game_b.place(x=int(scr_w*0.4),y=int(scr_h*0.7))
+whole_map_img = chore.resize('./img/map/whole_map.png',scr_w,scr_h)
 root.mainloop()
