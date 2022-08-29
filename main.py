@@ -70,7 +70,7 @@ def move_proc(key):
     if key == 'Up' and map[player_loc[1]-1][player_loc[0]] != '1':
         condition = False
         player_loc[1] -= 1
-        path = './img/player/back.py'
+        path = './img/player/back.png'
         player_img = chore.resize(path,scr_w/15,scr_h/15)
         if boo:
             def move():
@@ -104,7 +104,7 @@ def move_proc(key):
             root.mainloop()
     if key == 'Down' and map[player_loc[1]+1][player_loc[0]] != '1':
         condition = False
-        path = './img/player/front.py'
+        path = './img/player/front.png'
         player_img = chore.resize(path,scr_w/15,scr_h/15)
         player_loc[1] += 1
         if boo:
@@ -139,7 +139,7 @@ def move_proc(key):
             root.mainloop()
     if key == 'Right' and map[player_loc[1]][player_loc[0]+1] != '1':
         condition = False
-        path = './img/player/right.py'
+        path = './img/player/right.png'
         player_img = chore.resize(path,scr_w/15,scr_h/15)
         player_loc[0] += 1
         if boo:
@@ -174,7 +174,7 @@ def move_proc(key):
             root.mainloop()
     if key == 'Left' and map[player_loc[1]][player_loc[0]-1] != '1':
         condition = False
-        path = './img/player/left.py'
+        path = './img/player/left.png'
         player_img = chore.resize(path,scr_w/15,scr_h/15)
         player_loc[0] -= 1
         if boo:
