@@ -16,6 +16,9 @@ def BGM(path):    #BGMの再生
     mixer.music.load(path)
     mixer.music.play(loops=0)
 
+def music_quit():
+    mixer.quit()
+
 def roommaker(path):    #mapの作成
     map = []
     with open(path,'r') as f:

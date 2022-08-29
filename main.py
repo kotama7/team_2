@@ -1,29 +1,18 @@
 import tkinter
 import pyautogui
 import chore
+import dictionary
+import place_check
 
 map = []
 map_img = tkinter.PhotoImage
 player_img = tkinter.PhotoImage
 boo = True  #screenのscrollのbool値
 scr_w,scr_h= pyautogui.size()
-data_dict = {
-    'corrider':['./data/corrider.txt','./img/map/corrider.png',[2*scr_w,2*scr_h],[61*scr_w/80,-41*scr_h/500],[scr_w/2,scr_h/2],[23,21]],  #初期位置調整終了
-    'class_room_A':['./data/class_room.txt','./img/map/class_room.png',[scr_w,scr_h],[0,0],[scr_w/2,scr_h/2],[11,9]],
-    'class_room_B':['./data/class_room.txt','./img/map/class_room.png',[scr_w,scr_h],[0,0],[scr_w/2,scr_h/2],[11,9]],
-    'gym':['./data/gym.txt','./img/map/gym.png',[scr_w,scr_h],[0,0],[scr_w/2,scr_h/2],[11,9]],
-    'infirmary':['./data/infirmary.txt','./img/map/infirmary.png',[scr_w,scr_h],[0,0],[scr_w/2,scr_h/2],[11,9]],
-    'auditorium': ['./data/auditorium.txt','./data/auditorium.png',[scr_w,scr_h],[0,0],[scr_w/2,scr_h/2],[11,9]],
-
-}
+data_dict = dictionary.data_dict
 # 辞書の内容は[map_path,image_path,image_size,image_position,player_position,player_location]
  
-corrider_back_dict = {
-    'gym': [[61*scr_w/80,-41*scr_h/500],[23,21]],
-    'class_room_A': [[61*scr_w/80,-41*scr_h/500],[23,21]],
-    'infirmary': [[61*scr_w/80,-41*scr_h/500],[23,21]],
-    'auditorium': [[61*scr_w/80,-41*scr_h/500],[23,21]],
-}
+corrider_back_dict =dictionary.corrider_back_dict
 # 辞書の内容は[image_position,player_location] 
 
 def new_game(): #最初のスタート画面
@@ -47,22 +36,13 @@ def event():
 
 def screen_change_check():
     global location_name
-    if map[player_loc[1]][player_loc[0]] == '2':    #体育館移動
-        if location_name == 'corrider':
-            location_name = 'gym'
-            set_up(location_name)
-        else:
-            back_corrider_setup(location_name)
-            location_name = 'corrider'
-    if map[player_loc[1]][player_loc[0]] == '3':    #階段イベント    
-        event('stairs_death')
-    if map[player_loc[1]][player_loc[0]] == '4':    #教室A移動
-        if location_name == 'corrider':
-            location_name = 'class_room_A'
-            set_up(location_name)
-        else:
-            back_corrider_setup(location_name)
-            location_name = 'corrider'
+    destination, vector = place_check.check(map[player_loc[1]][player_loc[0]],location_name)
+    if vector:
+        location_name = destination
+        set_up(location_name)
+    else:
+        back_corrider_setup(location_name)
+        location_name = destination
 
 def move_proc(key):
     global condition, map_position, location_name, player_loc, player_screen_loc, player_img
