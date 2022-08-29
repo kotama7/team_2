@@ -1,3 +1,7 @@
+import pyautogui
+
+scr_w, scr_h = pyautogui.size()
+
 data_dict = {
     'corrider':['./data/corrider.txt','./img/map/corrider.png',[2*scr_w,2*scr_h],[61*scr_w/80,-41*scr_h/500],[scr_w/2,scr_h/2],[23,21]],  #初期位置調整終了
     'class_room_A_right':['./data/class_room.txt','./img/map/class_room.png',[scr_w,scr_h],[0,0],[scr_w/2,scr_h/2],[11,9]],
