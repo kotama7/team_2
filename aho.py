@@ -8,7 +8,7 @@ player_img = tkinter.PhotoImage
 boo = True  #screenのscrollのbool値
 scr_w,scr_h= pyautogui.size()
 data_dict = {
-    'corrider':['./data/corrider.txt','./img/map/corrider.png',[2*scr_w,2*scr_h],[297*scr_w/400,-29*scr_h/100],[scr_w/2,scr_h/2],[24,-3]],
+    'corrider':['./data/corrider.txt','./img/map/corrider.png',[2*scr_w,2*scr_h],[297*scr_w/400,-29*scr_h/100],[scr_w/2,scr_h/2],[24,-3]],   #[3]の中身を初手位置が靴箱になるよう変更。数値は一応割合で示してるから大丈夫やと思うけど、確認してみてくれ。初期位置９のつもりで設定してました。
     'class_room_A':['./data/class_room.txt','./img/map/class_room.png',[scr_w,scr_h],[],[],[]],
 }
 # 辞書の内容は[map_path,image_path,image_size,image_position,player_position,player_location] 
@@ -34,16 +34,16 @@ def move_proc(key):
     global condition, map_position, location_name, player_loc, player_screen_loc, data
     i = 0
     print(player_loc)
-    print(map[player_loc[1]-1][player_loc[0]])
+    print(map[player_loc[1]-1][player_loc[0]])   #ここplayer_loc[1]-1になってて、そのまま作業してるから方々に影響出てます。ちなみに-1は不要。なんならシンプルにミスってるだけ。
     if key == 'Up' and map[player_loc[1]-1][player_loc[0]] != 1:
         condition = False
         player_loc[1] -= 1
         if boo:
             def move():
                 canvas.delete(location_name)
-                map_position[1] += 3*tile_y/25
+                map_position[1] += 3*tile_y/25             #キー操作で動く量をいじりました。
                 canvas.create_image(map_position[0],map_position[1],image=map_img,tag=location_name)
-                canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
+                canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')      #プレイヤーが常にマップ上に表示されるよう調整。
             i += 1
             if i != 10:
                 root.after(100,move)
@@ -155,7 +155,7 @@ def set_up(location):    #場面転換
     map_img = chore.resize(data[1],data[2][0],data[2][1])
     player_screen_loc = data[3]
     canvas.create_image(data[3][0],data[3][1],image=map_img,tag=location)
-    player_img = chore.resize('./img/player/front.png',scr_w/15,scr_h/15)    #随時変更の必要あり
+    player_img = chore.resize('./img/player/front.png',scr_w/15,scr_h/15)    #ノリで変えました。
     tile_x = data[4][0]
     tile_y = data[4][1]
     canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
