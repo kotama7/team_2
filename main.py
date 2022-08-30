@@ -237,7 +237,7 @@ def set_up(location):    #場面転換
     else:
         boo = False
 
-chore.BGM('./music/SE/スタート画面.mp3')
+chore.BGM('./music/BGM/bird.mp3')
 root = tkinter.Tk()
 root.geometry(f'{scr_w}x{scr_h}')
 canvas = tkinter.Canvas(width=scr_w,height=scr_h,bg='black')
