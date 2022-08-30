@@ -53,12 +53,17 @@ def action(e):
             if (map[player_loc[1]][player_loc[0]] == "L") or (map[player_loc[1]][player_loc[0]] == "R"):
                 chore.SE('./music/SE/木のドアをノック1.mp3')
                 screen_change_check()
+        if key == 'J':
+            Jaby()
 
 def whole_map():
     global condition
     condition = False
     canvas.create_image(scr_w/2,scr_h/2,image=whole_map_img,tag='whole_map')
     root.after(2500,map_delete)
+
+def Jaby():
+    pass
 
 def narration(signal):
     global condition
@@ -68,8 +73,9 @@ def narration(signal):
             label.destroy()
         except:
             pass
-        label = tkinter.Label(root,text=all_text[counter],font=('System',24))   #labelの様式設定よろしくお願いします
-        label.place(relx=0.5,rely=0.5)    #位置指定お願いします
+        label = tkinter.Label(root,text=all_text[counter],font=('游ゴシック',24))   #labelの様式設定よろしくお願いします
+        label.place(relx=11/60,rely=301/400)
+        chore.SE('./music/SE/決定ボタンを押す7.mp3')                                     #位置指定お願いします
         if counter != len(all_text) -1:
             root.after(1500,text_flow,counter+1)
         else:
