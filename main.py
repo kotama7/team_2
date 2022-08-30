@@ -102,7 +102,7 @@ def Jaby():
         narration('tako_start')
 
 def normal_death():
-    global walk_count, condition
+    global walk_count, condition, ghost_img
     walk_count = 0
     condition = False
     ghost_img = chore.resize('./img/ghost/back.png',scr_w/13,scr_h/13)
@@ -111,8 +111,9 @@ def normal_death():
     root.after(1000,reset)
 
 def reset():
-    global location_name
-    canvas.delete()
+    global location_name, condition
+    condition = False
+    canvas.delete('all')
     location_name = 'corrider'
     root.after(1000,set_up,location_name)
 
@@ -453,14 +454,14 @@ def set_up(location):    #場面転換
     data = data_dict[location]
     map = chore.roommaker(data[0])
     map_img = chore.resize(data[1],data[2][0],data[2][1])
-    player_screen_loc = data[4]
+    player_screen_loc = data[4].copy()
     canvas.create_image(data[3][0],data[3][1],image=map_img,tag=location)
     player_img = chore.resize('./img/player/front.png',scr_w/15,scr_h/15)    #縦廊下の1/3になるように調整
     tile_x = player_screen_loc[0]
     tile_y = player_screen_loc[1]
     canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
-    map_position = data[3]
-    player_loc = data[5]
+    map_position = data[3].copy()
+    player_loc = data[5].copy()
     if location == 'corrider':
         boo = True
     else:
