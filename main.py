@@ -56,8 +56,7 @@ def action(e):
                 Jaby()
             if map[player_loc[1]][player_loc[0]] == 'H':
                 if "本" in tool:
-                    walk_count = 99
-                    
+                    walk_count = 99                    
                 Jaby()    
             if map[player_loc[1]][player_loc[0]] in map_move_list:
                 chore.SE('./music/SE/ドアを開ける.mp3')
@@ -130,7 +129,6 @@ def reset():
     canvas.delete('all')
     location_name = 'corrider'
     root.after(1000,set_up,location_name)
-
 
 def narration(signal):
     global condition
@@ -467,7 +465,6 @@ def back_corrider_setup(location):
 
 def set_up(location):    #場面転換
     global map, map_img, player_img, boo, player_loc, tile_x, tile_y, map_position, player_screen_loc, condition
-    condition = True
     data = copy.deepcopy(data_dict[location])
     map = chore.roommaker(data[0])
     map_img = chore.resize(data[1],data[2][0],data[2][1])
@@ -483,7 +480,8 @@ def set_up(location):    #場面転換
         boo = True
     else:
         boo = False
-
+    condition =  True
+    
 chore.BGM('./music/SE/探索.mp3')
 root = tkinter.Tk()
 root.geometry(f'{scr_w}x{scr_h}')
