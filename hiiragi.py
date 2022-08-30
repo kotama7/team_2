@@ -11,6 +11,7 @@ boo = True  #screenのscrollのbool値
 scr_w,scr_h= pyautogui.size()
 data_dict = hiiragi_dict.data_dict
 map_move_list = ["A","B","G","I","M","l"]
+event_list = ["d","g","t","v","k","b","m","P"]
 # 辞書の内容は[map_path,image_path,image_size,image_position,player_position,player_location]
  
 corrider_back_dict =hiiragi_dict.corrider_back_dict
