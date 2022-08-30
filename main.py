@@ -10,6 +10,8 @@ player_img = tkinter.PhotoImage
 boo = True  #screenのscrollのbool値
 scr_w,scr_h= pyautogui.size()
 data_dict = dictionary.data_dict
+map_move_list = ["A","B","G","I","M","l"]
+event_list = ["d","g","t","v","k","b","m","P"]
 # 辞書の内容は[map_path,image_path,image_size,image_position,player_position,player_location]
  
 corrider_back_dict =dictionary.corrider_back_dict
@@ -24,23 +26,32 @@ def new_game(): #最初のスタート画面
     condition = True    #key受付の有無
     root.bind('<KeyPress>',push)
     root.bind('<KeyRelease>',action)
-    root.mainloop()
+
 
 def push(e):
     global key
     key = e.keysym
 
-def action(e):    
-    move_ls = ['Up','Down','Right','Left']
-    if key in move_ls:
-        move_proc(key)
-    if key == 'm':
-        whole_map()
+def action(e):
+    if condition:
+        move_ls = ['Up','Down','Right','Left']
+        if key in move_ls:
+            move_proc(key)
+        if key == 'm':
+            whole_map()
+        if key == 'space':
+            if map[player_loc[1]][player_loc[0]] in map_move_list:
+                chore.SE('./music/SE/ドアを開ける.mp3')
+                screen_change_check()
+        if key == 'k':
+            if (map[player_loc[1]][player_loc[0]] == "L") or (map[player_loc[1]][player_loc[0]] == "R"):
+                chore.SE('./music/SE/木のドアをノック1.mp3')
+                screen_change_check()
 
 def whole_map():
     global condition
     condition = False
-    canvas.create_image(0,0,image=whole_map_img,tag='whole_map')
+    canvas.create_image(scr_w/2,scr_h/2,image=whole_map_img,tag='whole_map')
     root.after(2500,map_delete)
 
 def map_delete():
@@ -52,7 +63,6 @@ def screen_change_check():
     global location_name
     check_boo, destination, vector = place_check.check(map[player_loc[1]][player_loc[0]],location_name)
     if check_boo:
-        print('hello')
         if vector:
             location_name = destination
             set_up(location_name)
@@ -61,7 +71,7 @@ def screen_change_check():
             location_name = destination
 
 def move_proc(key):
-    global condition, map_position, location_name, player_loc, player_screen_loc, player_img
+    global condition, map_position, location_name, player_loc, player_screen_loc, player_img,tile_y,tile_x, i
     i = 0
     if key == 'Up' and map[player_loc[1]-1][player_loc[0]] != '1':
         condition = False
@@ -70,34 +80,34 @@ def move_proc(key):
         player_img = chore.resize(path,scr_w/15,scr_h/15)
         if boo:
             def move():
+                global i, condition
                 canvas.delete(location_name)
-                map_position[1] += 91*tile_y/900            #y歩幅調整済み
+                map_position[1] += 91*scr_h/18000            #y歩幅調整済み
                 canvas.create_image(map_position[0],map_position[1],image=map_img,tag=location_name)
                 canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
-                print(player_loc)
-                print(map[player_loc[1]][player_loc[0]])
-            i += 1
-            if i != 10:
-                root.after(100,move)
-            else:
-                screen_change_check()
-                condition = True
-            root.mainloop()
+                # print(player_loc)
+                # print(map[player_loc[1]][player_loc[0]])
+                i += 1
+                if i != 10:
+                    root.after(10,move)
+                else:
+                    condition = True
+            move()
         else:
             def move():
+                global i, condition
                 canvas.delete('Player')
-                player_screen_loc[1] -= 91*tile_y/900
+                player_screen_loc[1] -= 91*scr_h/18000
                 canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
-                canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
-                print(player_loc)                             #常に移動先の座標を表示
-                print(map[player_loc[1]][player_loc[0]])
-            i += 1
-            if i != 10:
-                root.after(100,move)
-            else:
-                screen_change_check()
-                condition = True
-            root.mainloop()
+                #canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
+                # print(player_loc)                             #常に移動先の座標を表示
+                # print(map[player_loc[1]][player_loc[0]])
+                i += 1
+                if i != 10:
+                    root.after(10,move)
+                else:
+                    condition = True
+            move()
     if key == 'Down' and map[player_loc[1]+1][player_loc[0]] != '1':
         condition = False
         path = './img/player/front.png'
@@ -105,34 +115,33 @@ def move_proc(key):
         player_loc[1] += 1
         if boo:
             def move():
+                global i, condition
                 canvas.delete(location_name)
-                map_position[1] -= 91*tile_y/900
+                map_position[1] -= 91*scr_h/18000
                 canvas.create_image(map_position[0],map_position[1],image=map_img,tag=location_name)
                 canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
-                print(player_loc)
-                print(map[player_loc[1]][player_loc[0]])
-            i += 1
-            if i != 10:
-                root.after(100,move)
-            else:
-                screen_change_check()
-                condition = True
-            root.mainloop()
+                # print(player_loc)
+                # print(map[player_loc[1]][player_loc[0]])
+                i += 1
+                if i != 10:
+                    root.after(10,move)
+                else:
+                    condition = True
+            move()
         else:
             def move():
+                global i, condition
                 canvas.delete('Player')
-                player_screen_loc[1] += 91*tile_y/900
+                player_screen_loc[1] += 91*scr_h/18000
                 canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
-                canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
-                print(player_loc)
-                print(map[player_loc[1]][player_loc[0]])
-            i += 1
-            if i != 10:
-                root.after(100,move)
-            else:
-                screen_change_check()
-                condition = True
-            root.mainloop()
+                # print(player_loc)
+                # print(map[player_loc[1]][player_loc[0]])
+                i += 1
+                if i != 10:
+                    root.after(10,move)
+                else:
+                    condition = True
+            move()
     if key == 'Right' and map[player_loc[1]][player_loc[0]+1] != '1':
         condition = False
         path = './img/player/right.png'
@@ -140,34 +149,33 @@ def move_proc(key):
         player_loc[0] += 1
         if boo:
             def move():
+                global i, condition
                 canvas.delete(location_name)
-                map_position[0] -= tile_x/18   #歩幅調整完了
+                map_position[0] -= scr_w/360   #歩幅調整完了
                 canvas.create_image(map_position[0],map_position[1],image=map_img,tag=location_name)
                 canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
-                print(player_loc)
-                print(map[player_loc[1]][player_loc[0]])
-            i += 1
-            if i != 10:
-                root.after(100,move)
-            else:
-                screen_change_check()
-                condition = True
-            root.mainloop()
+                # print(player_loc)
+                # print(map[player_loc[1]][player_loc[0]])
+                i += 1
+                if i != 10:
+                    root.after(10,move)
+                else:
+                    condition = True
+            move()
         else:
             def move():
+                global i, condition
                 canvas.delete('Player')
-                player_screen_loc[0] += tile_x/18
+                player_screen_loc[0] += scr_w/360
                 canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
-                canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
-                print(player_loc)
-                print(map[player_loc[1]][player_loc[0]])
-            i += 1
-            if i != 10:
-                root.after(100,move)
-            else:
-                screen_change_check()
-                condition = True
-            root.mainloop()
+                # print(player_loc)
+                # print(map[player_loc[1]][player_loc[0]])
+                i += 1
+                if i != 10:
+                    root.after(10,move)
+                else:                    
+                    condition = True
+            move()
     if key == 'Left' and map[player_loc[1]][player_loc[0]-1] != '1':
         condition = False
         path = './img/player/left.png'
@@ -175,34 +183,33 @@ def move_proc(key):
         player_loc[0] -= 1
         if boo:
             def move():
+                global i, condition
                 canvas.delete(location_name)
-                map_position[0] += tile_x/18    #歩幅調整完了
+                map_position[0] += scr_w/360   #歩幅調整完了
                 canvas.create_image(map_position[0],map_position[1],image=map_img,tag=location_name)
                 canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
-                print(player_loc)
-                print(map[player_loc[1]][player_loc[0]])
-            i += 1
-            if i != 10:
-                root.after(100,move)
-            else:
-                screen_change_check()
-                condition = True
-            root.mainloop()
+                # print(player_loc)
+                # print(map[player_loc[1]][player_loc[0]])
+                i += 1
+                if i != 10:
+                    root.after(10,move)
+                else:
+                    condition = True
+            move()
         else:
             def move():
+                global i, condition
                 canvas.delete('Player')
-                player_screen_loc[0] -= tile_x/18
+                player_screen_loc[0] -= scr_w/360
                 canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
-                canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
-                print(player_loc)
-                print(map[player_loc[1]][player_loc[0]])
-            i += 1
-            if i != 10:
-                root.after(100,move)
-            else:
-                screen_change_check()
-                condition = True
-            root.mainloop()
+                # print(player_loc)
+                # print(map[player_loc[1]][player_loc[0]])
+                i += 1
+                if i != 10:
+                    root.after(10,move)
+                else:
+                    condition = True
+            move()
          
 def back_corrider_setup(location):
     global map, map_img, player_img, boo, player_loc, tile_x, tile_y, map_position, player_screen_loc
@@ -224,11 +231,11 @@ def set_up(location):    #場面転換
     data = data_dict[location]
     map = chore.roommaker(data[0])
     map_img = chore.resize(data[1],data[2][0],data[2][1])
-    player_screen_loc = data[3]
+    player_screen_loc = data[4]
     canvas.create_image(data[3][0],data[3][1],image=map_img,tag=location)
     player_img = chore.resize('./img/player/front.png',scr_w/15,scr_h/15)    #縦廊下の1/3になるように調整
-    tile_x = data[4][0]
-    tile_y = data[4][1]
+    tile_x = player_screen_loc[0]
+    tile_y = player_screen_loc[1]
     canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
     map_position = data[3]
     player_loc = data[5]
@@ -237,7 +244,7 @@ def set_up(location):    #場面転換
     else:
         boo = False
 
-chore.BGM('./music/BGM/bird.mp3')
+chore.BGM('./music/SE/探索.mp3')
 root = tkinter.Tk()
 root.geometry(f'{scr_w}x{scr_h}')
 canvas = tkinter.Canvas(width=scr_w,height=scr_h,bg='black')
