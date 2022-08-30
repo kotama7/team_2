@@ -96,7 +96,7 @@ def move_proc(key):
         else:
             def move():
                 canvas.delete('Player')
-                player_screen_loc[1] -= 91*scr_h/1800
+                player_screen_loc[1] -= 135*scr_h/1800
                 canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
                 #canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
                 print(player_loc)                             #常に移動先の座標を表示
@@ -131,7 +131,7 @@ def move_proc(key):
         else:
             def move():
                 canvas.delete('Player')
-                player_screen_loc[1] += 91*scr_h/1800
+                player_screen_loc[1] += 135*scr_h/1800
                 canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
                 #canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
                 print(player_loc)
@@ -166,7 +166,7 @@ def move_proc(key):
         else:
             def move():
                 canvas.delete('Player')
-                player_screen_loc[0] += scr_w/36
+                player_screen_loc[0] += 208*scr_w/5000
                 canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
                 #canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
                 print(player_loc)
@@ -201,7 +201,7 @@ def move_proc(key):
         else:
             def move():
                 canvas.delete('Player')
-                player_screen_loc[0] -= scr_w/36
+                player_screen_loc[0] -= 208*scr_w/5000
                 canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
                 #canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
                 print(player_loc)
