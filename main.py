@@ -14,7 +14,7 @@ boo = True  #screenのscrollのbool値
 scr_w,scr_h= pyautogui.size()
 data_dict = dictionary.data_dict
 map_move_list = ["A","B","G","I","M","l"]
-event_list = ["d","g","t","v","k","b","m","P"]
+event_list = ["d","g","t","v","k","b","m","P","?","N","w"]
 # 辞書の内容は[map_path,image_path,image_size,image_position,player_position,player_location]
  
 corrider_back_dict =dictionary.corrider_back_dict
@@ -69,7 +69,7 @@ def narration(signal):
         except:
             pass
         label = tkinter.Label(root,text=all_text[counter],font=('System',24))   #labelの様式設定よろしくお願いします
-        label.place(x=0,y=0)    #位置指定お願いします
+        label.place(relx=0.5,rely=0.5)    #位置指定お願いします
         if counter != len(all_text) -1:
             root.after(1500,text_flow,counter+1)
         else:
@@ -77,17 +77,34 @@ def narration(signal):
     def finish():
         global condition, tool
         label.destroy()
-        tool ,extra_event_boo =event.event_resalt(signal, tool) 
+        canvas.delete('textbox')
+        item, lost_item, extra_event_boo =event.event_resalt(signal)
+        if not item in tool:
+            tool.append(item)
+        if lost_item in tool:
+            tool.remove(lost_item)
         condition = True
         if extra_event_boo:
             develop(signal)
     condition = False
     all_text = event.call_text(signal).split('\n')
-    canvas.create_image(0,0,textbox_img,tag='textbox')  #位置指定お願いします
+    canvas.create_image(scr_w/2,3*scr_h/4,image=textbox_img,tag='textbox')  #位置指定お願いします
     text_flow(0)
     
 def develop(signal):
-    pass
+    if (signal == 'm') and ('本' in tool):
+        narration('m2')
+    if (signal == 'g') and ('貸出し済みの本' in tool):
+        narration('g2')
+    if (signal == 'k') and ('ボール' in tool):
+        narration('k2')
+    if (signal == '?') and ('謎の部屋の鍵' in tool):
+        narration('?2')
+    if signal =='t':
+        pass    #出口をNに書き換える、倉庫をWに書き換える、鬼ごっこ開始
+    if signal == 'd':
+        pass  #パスワード入力、あっていたらnarration('d_OK')、まちがっていたらnarration('d_NG')
+    
 
 def map_delete():
     global condition
@@ -132,7 +149,7 @@ def move_proc(key):
             def move():
                 global i, condition
                 canvas.delete('Player')
-                player_screen_loc[1] -= 91*scr_h/18000
+                player_screen_loc[1] -= 135*scr_h/18000
                 canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
                 #canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
                 # print(player_loc)                             #常に移動先の座標を表示
@@ -167,7 +184,7 @@ def move_proc(key):
             def move():
                 global i, condition
                 canvas.delete('Player')
-                player_screen_loc[1] += 91*scr_h/18000
+                player_screen_loc[1] += 135*scr_h/18000
                 canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
                 # print(player_loc)
                 # print(map[player_loc[1]][player_loc[0]])
@@ -201,7 +218,7 @@ def move_proc(key):
             def move():
                 global i, condition
                 canvas.delete('Player')
-                player_screen_loc[0] += scr_w/360
+                player_screen_loc[0] += 208*scr_w/50000
                 canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
                 # print(player_loc)
                 # print(map[player_loc[1]][player_loc[0]])
@@ -235,7 +252,7 @@ def move_proc(key):
             def move():
                 global i, condition
                 canvas.delete('Player')
-                player_screen_loc[0] -= scr_w/360
+                player_screen_loc[0] -= 208*scr_w/50000
                 canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
                 # print(player_loc)
                 # print(map[player_loc[1]][player_loc[0]])
@@ -290,5 +307,5 @@ b_img_1 = chore.resize('./img/buttun/new_game.png',scr_w/5,scr_h/10)
 new_game_b = tkinter.Button(image=b_img_1,command=new_game)
 new_game_b.place(x=int(scr_w*0.4),y=int(scr_h*0.7))
 whole_map_img = chore.resize('./img/map/whole_map.png',scr_w,scr_h)
-textbox_img = chore.resize('./img/component/textbox.png')
+textbox_img = chore.resize('./img/component/textbox.png',3*scr_w/4,scr_h/4)
 root.mainloop()
