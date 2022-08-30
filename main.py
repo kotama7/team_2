@@ -3,8 +3,11 @@ import pyautogui
 import chore
 import dictionary
 import place_check
+import event
+
 
 map = []
+tool = []
 map_img = tkinter.PhotoImage
 player_img = tkinter.PhotoImage
 boo = True  #screenのscrollのbool値
@@ -33,6 +36,7 @@ def push(e):
     key = e.keysym
 
 def action(e):
+    global condition, tool
     if condition:
         move_ls = ['Up','Down','Right','Left']
         if key in move_ls:
@@ -43,6 +47,8 @@ def action(e):
             if map[player_loc[1]][player_loc[0]] in map_move_list:
                 chore.SE('./music/SE/ドアを開ける.mp3')
                 screen_change_check()
+            if map[player_loc[1]][player_loc[0]] in event_list:
+                narration(map[player_loc[1]][player_loc[0]])
         if key == 'k':
             if (map[player_loc[1]][player_loc[0]] == "L") or (map[player_loc[1]][player_loc[0]] == "R"):
                 chore.SE('./music/SE/木のドアをノック1.mp3')
@@ -53,6 +59,35 @@ def whole_map():
     condition = False
     canvas.create_image(scr_w/2,scr_h/2,image=whole_map_img,tag='whole_map')
     root.after(2500,map_delete)
+
+def narration(signal):
+    global condition
+    def text_flow(counter):
+        global label
+        try:
+            label.destroy()
+        except:
+            pass
+        label = tkinter.Label(root,text=all_text[counter],font=('System',24))   #labelの様式設定よろしくお願いします
+        label.place(x=0,y=0)    #位置指定お願いします
+        if counter != len(all_text) -1:
+            root.after(1500,text_flow,counter+1)
+        else:
+            root.after(1500,finish)
+    def finish():
+        global condition, tool
+        label.destroy()
+        tool ,extra_event_boo =event.event_resalt(signal, tool) 
+        condition = True
+        if extra_event_boo:
+            develop(signal)
+    condition = False
+    all_text = event.call_text(signal).split('\n')
+    canvas.create_image(0,0,textbox_img,tag='textbox')  #位置指定お願いします
+    text_flow(0)
+    
+def develop(signal):
+    pass
 
 def map_delete():
     global condition
@@ -255,4 +290,5 @@ b_img_1 = chore.resize('./img/buttun/new_game.png',scr_w/5,scr_h/10)
 new_game_b = tkinter.Button(image=b_img_1,command=new_game)
 new_game_b.place(x=int(scr_w*0.4),y=int(scr_h*0.7))
 whole_map_img = chore.resize('./img/map/whole_map.png',scr_w,scr_h)
+textbox_img = chore.resize('./img/component/textbox.png')
 root.mainloop()

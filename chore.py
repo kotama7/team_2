@@ -27,6 +27,5 @@ def roommaker(path):    #mapの作成
     return map
 
 def SE(path):   #効果音の再生
-    mixer.init()
     mixer.music.load(path)
     mixer.music.play()
