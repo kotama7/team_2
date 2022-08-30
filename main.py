@@ -5,7 +5,7 @@ import dictionary
 import place_check
 import event
 import copy
-
+import re
 
 map = []
 tool = []
@@ -49,6 +49,8 @@ def action(e):
                 normal_death()
         if key == 'm':
             whole_map()
+        if key == 'w':
+            walk_count_decleare()
         if key == 'space':
             if map[player_loc[1]][player_loc[0]] == 'J':
                 Jaby()
@@ -79,6 +81,17 @@ def action(e):
                 chore.SE('./music/SE/木のドアをノック1.mp3')
                 screen_change_check()
         
+def walk_count_decleare():
+    global condition, label
+    condition = False
+    label = tkinter.Label(root,text=str(walk_count),font=('游ゴシック',24))
+    label.place(x=0,y=0)
+    root.after(2500,count_delete)
+
+def count_delete():
+    global condition
+    label.destroy()
+    condition = True
 
 def whole_map():
     global condition
@@ -175,16 +188,16 @@ def map_change():
     root.after(1,ghost_chase)
     
 def ghost_chase():
-    global ghost_i, condition, ghost_screen_loc
+    global ghost_i, condition, ghost_screen_loc, ghost_img, walk_count
     ghost_i = 0
     if player_loc[1] < ghost_loc[1]:    #Up
         ghost_loc[1] -= 1
         path = './img/ghost/back.png'
         ghost_img = chore.resize(path,scr_w/15,scr_h/15)
         canvas.create_image(ghost_screen_loc[0],ghost_screen_loc[1],image=ghost_img,tag='ghost')
-        def move():
+        def move_ghost():
             global ghost_i, condition
-            if location_name != 'gym':
+            if not re.match('gym',location_name):
                 canvas.delete('ghost')
             else:
                 canvas.delete('ghost')
@@ -192,18 +205,18 @@ def ghost_chase():
                 canvas.create_image(ghost_screen_loc[0],ghost_screen_loc[1],image=ghost_img,tag='ghost')
                 ghost_i += 1
                 if ghost_i != 10:
-                    root.after(20,move)
+                    root.after(20,move_ghost)
                 else:
                     root.after(1,ghost_chase)
-        move()
+        move_ghost()
     elif player_loc[1] > ghost_loc[1]:  #Down
         ghost_loc[1] += 1
         path = './img/ghost/front.png'
         ghost_img = chore.resize(path,scr_w/15,scr_h/15)
         canvas.create_image(ghost_screen_loc[0],ghost_screen_loc[1],image=ghost_img,tag='ghost')
-        def move():
+        def move_ghost():
             global ghost_i, condition
-            if location_name != 'gym':
+            if not re.match('gym',location_name):
                 canvas.delete('ghost')
             else:
                 canvas.delete('ghost')
@@ -211,18 +224,18 @@ def ghost_chase():
                 canvas.create_image(ghost_screen_loc[0],ghost_screen_loc[1],image=ghost_img,tag='ghost')
                 ghost_i += 1
                 if ghost_i != 10:
-                    root.after(20,move)
+                    root.after(20,move_ghost)
                 else:
                     root.after(1,ghost_chase)
-        move()
+        move_ghost()
     elif player_loc[0] > ghost_loc[0]:  #Right
         ghost_loc[0] += 1
         path = './img/ghost/right.png'
         ghost_img = chore.resize(path,scr_w/15,scr_h/15)
         canvas.create_image(ghost_screen_loc[0],ghost_screen_loc[1],image=ghost_img,tag='ghost')
-        def move():
+        def move_ghost():
             global ghost_i, condition
-            if location_name != 'gym':
+            if not re.match('gym',location_name):
                 canvas.delete('ghost')
             else:
                 canvas.delete('ghost')
@@ -230,18 +243,18 @@ def ghost_chase():
                 canvas.create_image(ghost_screen_loc[0],ghost_screen_loc[1],image=ghost_img,tag='ghost')
                 ghost_i += 1
                 if ghost_i != 10:
-                    root.after(20,move)
+                    root.after(20,move_ghost)
                 else:
                     root.after(1,ghost_chase)
-        move()
+        move_ghost()
     elif player_loc[0] < ghost_loc[0]:  #left
         ghost_loc[0] -= 1
         path = './img/ghost/left.png'
         ghost_img = chore.resize(path,scr_w/15,scr_h/15)
         canvas.create_image(ghost_screen_loc[0],ghost_screen_loc[1],image=ghost_img,tag='ghost')
-        def move():
+        def move_ghost():
             global ghost_i, condition
-            if location_name != 'gym':
+            if not re.match('gym',location_name):
                 canvas.delete('ghost')
             else:
                 canvas.delete('ghost')
@@ -249,12 +262,15 @@ def ghost_chase():
                 canvas.create_image(ghost_screen_loc[0],ghost_screen_loc[1],image=ghost_img,tag='ghost')
                 ghost_i += 1
                 if ghost_i != 10:
-                    root.after(20,move)
+                    root.after(20,move_ghost)
                 else:
                     root.after(1,ghost_chase)
-            move()  
+        move_ghost()  
     else:
+        canvas.delete('ghost')
+        canvas.delete('Player')
         condition = False
+        walk_count = 0
         reset()
 
 def verify():
