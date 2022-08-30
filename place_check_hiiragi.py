@@ -41,24 +41,5 @@ def check(number,location):
             return True, 'staff_room_right', True
         else:
             return True, 'corrider', False
-    if number == 'l':
-        if location == 'corrider':
-            return True, 'library', True
-        else:
-            return True, 'corrider', False
-    if number == 'l':
-        if location == 'corrider':
-            return True, 'library', True
-        else:
-            return True, 'corrider', False
-    if number == 'l':
-        if location == 'corrider':
-            return True, 'library', True
-        else:
-            return True, 'corrider', False
-    if number == 'l':
-        if location == 'corrider':
-            return True, 'library', True
-        else:
-            return True, 'corrider', False
+   
     return False, None, None
