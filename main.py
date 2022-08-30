@@ -4,6 +4,7 @@ import chore
 import dictionary
 import place_check
 import event
+import copy
 
 
 map = []
@@ -435,33 +436,33 @@ def move_proc(key):
          
 def back_corrider_setup(location):
     global map, map_img, player_img, boo, player_loc, tile_x, tile_y, map_position, player_screen_loc
-    data = corrider_back_dict[location]
+    data = copy.deepcopy(corrider_back_dict[location])
     map = chore.roommaker('./data/corrider.txt')
     map_img = chore.resize('./img/map/corrider.png',2*scr_w,2*scr_h)
-    player_screen_loc = data[0]
+    player_screen_loc = copy.copy(data[0])
     canvas.create_image(data[0][0],data[0][1],image=map_img,tag=location)
     player_img = chore.resize('./img/player/front.png',scr_w/15,scr_h/15)    #縦廊下の1/3になるように調整
     tile_x = scr_w/2
     tile_y = scr_h/2
     canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
-    map_position = data[0]
+    map_position = copy.copy(data[0])
     player_loc = data[1]
     boo = True
 
 def set_up(location):    #場面転換
     global map, map_img, player_img, boo, player_loc, tile_x, tile_y, map_position, player_screen_loc, condition
     condition = True
-    data = data_dict[location]
+    data = copy.deepcopy(data_dict[location])
     map = chore.roommaker(data[0])
     map_img = chore.resize(data[1],data[2][0],data[2][1])
-    player_screen_loc = data[4].copy()
+    player_screen_loc = data[4]
     canvas.create_image(data[3][0],data[3][1],image=map_img,tag=location)
     player_img = chore.resize('./img/player/front.png',scr_w/15,scr_h/15)    #縦廊下の1/3になるように調整
     tile_x = player_screen_loc[0]
     tile_y = player_screen_loc[1]
     canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
-    map_position = data[3].copy()
-    player_loc = data[5].copy()
+    map_position = data[3]
+    player_loc = data[5]
     if location == 'corrider':
         boo = True
     else:
