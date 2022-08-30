@@ -44,9 +44,15 @@ def action(e):
         if key in move_ls:
             move_proc(key)
             walk_count += 1
+            if map[player_loc[1]][player_loc[0]] == 'o':
+                tool.append("体育館")
             if (walk_count % 100 == 0) and (location_name == 'corrider'):
                 tool.append("歩数")
                 normal_death()
+            if (walk_count > 100) and (location_name == 'corrider'):
+                map[1][9] = 'M'
+                map[2][9] = 'M'
+                map[3][9] = 'M'
         if key == 'm':
             whole_map()
         if key == 'w':
@@ -54,16 +60,28 @@ def action(e):
         if key == 'space':
             if map[player_loc[1]][player_loc[0]] == 'J':
                 Jaby()
-            if map[player_loc[1]][player_loc[0]] == 'H':
-                if "本" in tool:
-                    walk_count = 99
-                    
-                Jaby()    
+            
             if map[player_loc[1]][player_loc[0]] in map_move_list:
                 chore.SE('./music/SE/ドアを開ける.mp3')
                 screen_change_check()
-            if map[player_loc[1]][player_loc[0]] in event_list:
+            elif map[player_loc[1]][player_loc[0]] == 'H':
+                if "本" in tool:
+                    walk_count = 99
+                    tool.remove("本")
+                chore.SE('./music/SE/ドアを開ける.mp3')
+                screen_change_check()
+            elif map[player_loc[1]][player_loc[0]] == 'E':
+                if "体育館" in tool:
+                    walk_count = 99
+                chore.SE('./music/SE/ドアを開ける.mp3')
+                screen_change_check()
+            
+            elif map[player_loc[1]][player_loc[0]] == 'Y':
+                chore.SE('./music/SE/ドアを開ける.mp3')
+                screen_change_check()
+            elif map[player_loc[1]][player_loc[0]] in event_list:
                 narration(map[player_loc[1]][player_loc[0]])
+            
             if map[player_loc[1]][player_loc[0]] == 'X':
                 if not "教室" in tool:
                     tool.append("教室")
@@ -121,6 +139,7 @@ def normal_death():
     condition = False
     ghost_img = chore.resize('./img/ghost/back.png',scr_w/13,scr_h/13)
     canvas.create_image(player_screen_loc[0],player_screen_loc[1]+scr_h/15,image=ghost_img,tag='ghost')
+    chore.SE('./music/SE/死亡時テキスト.mp3')
     narration('death')
     root.after(1000,reset)
 
@@ -128,6 +147,7 @@ def reset():
     global location_name, condition
     condition = False
     canvas.delete('all')
+    chore.SE('./music/SE/打撃8.mp3')
     location_name = 'corrider'
     root.after(1000,set_up,location_name)
 
@@ -184,7 +204,8 @@ def map_change():
     map[5][1] = 'N'
     map[5][12] = 'W'
     ghost_loc = [5,12]
-    ghost_screen_loc = [375*scr_w/1200+11*208*scr_w/50000,1013*scr_h/2000]   #指定求むt
+    ghost_screen_loc = [375*scr_w/1200+11*208*scr_w/5000,1013*scr_h/2000]   #指定求む
+    chore.SE('./music/SE/ドアを蹴破る.mp3')
     root.after(1,ghost_chase)
     
 def ghost_chase():
@@ -489,7 +510,7 @@ root = tkinter.Tk()
 root.geometry(f'{scr_w}x{scr_h}')
 canvas = tkinter.Canvas(width=scr_w,height=scr_h,bg='black')
 canvas.pack()
-s_img_1 = chore.resize('./img/screen/start.png',scr_w,scr_h)
+s_img_1 = chore.resize('./img/screen/スタート画面_学校.png',scr_w,scr_h)
 canvas.create_image(scr_w/2,scr_h/2,image=s_img_1,tag='BG_start')
 b_img_1 = chore.resize('./img/buttun/new_game.png',scr_w/5,scr_h/10)
 new_game_b = tkinter.Button(image=b_img_1,command=new_game)

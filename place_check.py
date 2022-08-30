@@ -6,6 +6,16 @@ def check(number,location):
             return True, 'gym_left', True
         else:
             return True, 'corrider', False
+    if number == 'E':
+        if location == 'corrider':
+            return True, 'gym_left', True
+        else:
+            return True, 'corrider', False
+    if number == 'W':
+        if (location == 'gym_left') or (location == 'gym_right'):
+            return True, 'warehouse', True
+        else:
+            return True, 'gym_right', True
     if number == 'M':
         if location == 'corrider':
             return True, 'auditorium', True
@@ -44,6 +54,11 @@ def check(number,location):
     if number == 'R':
         if location == 'corrider':
             return True, 'staff_room_right', True
+        else:
+            return True, 'corrider', False
+    if number == 'Y':
+        if location == 'corrider':
+            return True, 'auditorium_ghost', True
         else:
             return True, 'corrider', False
    
