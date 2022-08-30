@@ -1,18 +1,18 @@
 import tkinter
 import pyautogui
 import chore
-import dictionary
-import place_check
+import hiiragi_dict
+import place_check_hiiragi
 
 map = []
 map_img = tkinter.PhotoImage
 player_img = tkinter.PhotoImage
 boo = True  #screenのscrollのbool値
 scr_w,scr_h= pyautogui.size()
-data_dict = dictionary.data_dict
+data_dict = hiiragi_dict.data_dict
 # 辞書の内容は[map_path,image_path,image_size,image_position,player_position,player_location]
  
-corrider_back_dict =dictionary.corrider_back_dict
+corrider_back_dict =hiiragi_dict.corrider_back_dict
 # 辞書の内容は[image_position,player_location] 
 
 def new_game(): #最初のスタート画面
@@ -36,6 +36,9 @@ def action(e):
         move_proc(key)
     if key == 'm':
         whole_map()
+    if key == 'space':
+        if map[player_loc[1]][player_loc[0]] != 1:
+            screen_change_check()
 
 def whole_map():
     global condition
@@ -50,7 +53,7 @@ def map_delete():
 
 def screen_change_check():
     global location_name
-    check_boo, destination, vector = place_check.check(map[player_loc[1]][player_loc[0]],location_name)
+    check_boo, destination, vector = place_check_hiiragi.check(map[player_loc[1]][player_loc[0]],location_name)
     if check_boo:
         print('hello')
         if vector:
@@ -237,7 +240,7 @@ def set_up(location):    #場面転換
     else:
         boo = False
 
-chore.BGM('./music/SE/スタート画面.mp3')
+chore.BGM('./music/SE/探索.mp3')
 root = tkinter.Tk()
 root.geometry(f'{scr_w}x{scr_h}')
 canvas = tkinter.Canvas(width=scr_w,height=scr_h,bg='black')
