@@ -70,7 +70,7 @@ def screen_change_check():
             location_name = destination
 
 def move_proc(key):
-    global condition, map_position, location_name, player_loc, player_screen_loc, player_img
+    global condition, map_position, location_name, player_loc, player_screen_loc, player_img,tile_y,tile_x
     i = 0
     if key == 'Up' and map[player_loc[1]-1][player_loc[0]] != '1':
         condition = False
@@ -80,7 +80,7 @@ def move_proc(key):
         if boo:
             def move():
                 canvas.delete(location_name)
-                map_position[1] += 91*tile_y/900            #y歩幅調整済み
+                map_position[1] += 91*scr_h/1800            #y歩幅調整済み
                 canvas.create_image(map_position[0],map_position[1],image=map_img,tag=location_name)
                 canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
                 print(player_loc)
@@ -95,7 +95,7 @@ def move_proc(key):
         else:
             def move():
                 canvas.delete('Player')
-                player_screen_loc[1] -= 91*tile_y/900
+                player_screen_loc[1] -= 91*scr_h/1800
                 canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
                 #canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
                 print(player_loc)                             #常に移動先の座標を表示
@@ -115,7 +115,7 @@ def move_proc(key):
         if boo:
             def move():
                 canvas.delete(location_name)
-                map_position[1] -= 91*tile_y/900
+                map_position[1] -= 91*scr_h/1800
                 canvas.create_image(map_position[0],map_position[1],image=map_img,tag=location_name)
                 canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
                 print(player_loc)
@@ -130,7 +130,7 @@ def move_proc(key):
         else:
             def move():
                 canvas.delete('Player')
-                player_screen_loc[1] += 91*tile_y/900
+                player_screen_loc[1] += 91*scr_h/1800
                 canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
                 #canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
                 print(player_loc)
@@ -150,7 +150,7 @@ def move_proc(key):
         if boo:
             def move():
                 canvas.delete(location_name)
-                map_position[0] -= tile_x/18   #歩幅調整完了
+                map_position[0] -= scr_w/36   #歩幅調整完了
                 canvas.create_image(map_position[0],map_position[1],image=map_img,tag=location_name)
                 canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
                 print(player_loc)
@@ -165,7 +165,7 @@ def move_proc(key):
         else:
             def move():
                 canvas.delete('Player')
-                player_screen_loc[0] += tile_x/18
+                player_screen_loc[0] += scr_w/36
                 canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
                 #canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
                 print(player_loc)
@@ -185,7 +185,7 @@ def move_proc(key):
         if boo:
             def move():
                 canvas.delete(location_name)
-                map_position[0] += tile_x/18    #歩幅調整完了
+                map_position[0] += scr_w/36   #歩幅調整完了
                 canvas.create_image(map_position[0],map_position[1],image=map_img,tag=location_name)
                 canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
                 print(player_loc)
@@ -200,7 +200,7 @@ def move_proc(key):
         else:
             def move():
                 canvas.delete('Player')
-                player_screen_loc[0] -= tile_x/18
+                player_screen_loc[0] -= scr_w/36
                 canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
                 #canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
                 print(player_loc)
@@ -233,15 +233,14 @@ def set_up(location):    #場面転換
     data = data_dict[location]
     map = chore.roommaker(data[0])
     map_img = chore.resize(data[1],data[2][0],data[2][1])
-    player_screen_loc = data[3]
+    player_screen_loc = data[4]
     canvas.create_image(data[3][0],data[3][1],image=map_img,tag=location)
     player_img = chore.resize('./img/player/front.png',scr_w/15,scr_h/15)    #縦廊下の1/3になるように調整
-    tile_x = data[4][0]
-    tile_y = data[4][1]
-    if location == 'corrider':
-        canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
-    else:
-        canvas.create_image(player_screen_loc[0],player_screen_loc[1],image=player_img,tag='Player')
+    tile_x = player_screen_loc[0]
+    tile_y = player_screen_loc[1]
+    
+    canvas.create_image(tile_x,tile_y,image=player_img,tag='Player')
+
     map_position = data[3]
     player_loc = data[5]
     if location == 'corrider':
