@@ -21,17 +21,18 @@ data_dict = {
 # 辞書の内容は[map_path,image_path,image_size,image_position,player_position,player_location]
  
 corrider_back_dict = {
-    'class_room_A_right': [[61*scr_w/80,-41*scr_h/500],[45,15]],
-    'class_room_A_left': [[61*scr_w/80,-41*scr_h/500],[38,15]],
-    'class_room_B_right': [[61*scr_w/80,-41*scr_h/500],[59,15]],
-    'class_room_B_left': [[61*scr_w/80,-41*scr_h/500],[52,15]],
-    'gym_left': [[61*scr_w/80,-41*scr_h/500],[63,17]],
+    'class_room_A_right': [[61*scr_w/80-22*scr_w/36,-41*scr_h/500+6*91*scr_h/1800],[45,15]],
+    'class_room_A_left': [[61*scr_w/80-15*scr_w/36,-41*scr_h/500+6*91*scr_h/1800],[38,15]],
+    'class_room_B_right': [[61*scr_w/80-36*scr_w/36,-41*scr_h/500+6*91*scr_h/1800],[59,15]],
+    'class_room_B_left': [[61*scr_w/80-29*scr_w/36,-41*scr_h/500+6*91*scr_h/1800],[52,15]],
+    'gym_left': [[61*scr_w/80-40*scr_w/36,-41*scr_h/500+4*91*scr_h/1800],[63,17]],
     'gym_right': [[61*scr_w/80,-41*scr_h/500],[23,21]],
-    'infirmary': [[61*scr_w/80,-41*scr_h/500],[31,15]],
-    'auditorium': [[61*scr_w/80,-41*scr_h/500],[9,2]],
-    'staff_room_left': [[61*scr_w/80,-41*scr_h/500],[11,15]],
-    'staff_room_right': [[61*scr_w/80,-41*scr_h/500],[18,15]],
-    'library': [[61*scr_w/80,-41*scr_h/500],[37,2]],
+    'infirmary': [[61*scr_w/80-8*scr_w/36,-41*scr_h/500+6*91*scr_h/1800],[31,15]],
+    'auditorium': [[61*scr_w/80+14*scr_w/36,-41*scr_h/500+19*91*scr_h/1800],[9,2]],
+    'staff_room_left': [[61*scr_w/80+12*scr_w/36,-41*scr_h/500+6*91*scr_h/1800],[11,15]],
+    'staff_room_right': [[61*scr_w/80+5*scr_w/36,-41*scr_h/500+6*91*scr_h/1800],[18,15]],
+    'library': [[61*scr_w/80-14*scr_w/36,-41*scr_h/500+19*91*scr_h/1800],[37,2]],
     'warehouse': [[61*scr_w/80,-41*scr_h/500],[23,21]],
+
 }
 # 辞書の内容は[image_position,player_location] 
