@@ -61,16 +61,18 @@ text_dict= {
     'N':'./text/体育館_出口.txt',
     '?':'./text/謎の部屋1.txt',
     '?2':'./text/謎の部屋2.txt',
+    'death':'./text/幽霊.txt'
 }
 # 辞書の内容はsignal:path 
 
 item_dict={
     'tako_start':['','',False],
-    'tako_class':['','',False],
-    'tako_gym':['','',False],
-    'tako_library':['','',False],
-    'tako_teacher':['','',False],
-    'tako_play':['','',False],
+    'tako_class':['','教室',False],
+    'tako_gym':['','体育館',False],
+    'tako_library':['','図書室',False],
+    'tako_teacher':['','職員室',False],
+    'tako_play':['','鬼ごっこ',False],
+    'tako_walk':['','歩数',False],
     'm':['','',True],
     'm2':['貸出し済みの本','本',False],
     't':['','',True],
@@ -88,4 +90,5 @@ item_dict={
     'N':['','',False],
     '?':['','',True],
     '?2':['','',False],
+    'death':['','',False],
 }

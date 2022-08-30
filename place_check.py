@@ -16,6 +16,11 @@ def check(number,location):
             return True, 'library', True
         else:
             return True, 'corrider', False
+    if number == 'H':
+        if location == 'corrider':
+            return True, 'library', True
+        else:
+            return True, 'corrider', False
     if number == 'A':
         if location == 'corrider':
             return True, 'class_room_A_left', True
