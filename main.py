@@ -138,7 +138,9 @@ def whole_map():
     root.after(2500,map_delete)
 
 def Jaby():
-    if "教室" in tool:
+    if ("教室の鍵" in tool) and ("体重計の鍵" in tool) and ("音楽室の鍵" in tool):
+        narration('tako_clear')
+    elif "教室" in tool:
         narration('tako_class')
     elif "階段" in tool:
         narration('tako_stairs')
