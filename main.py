@@ -166,7 +166,6 @@ def normal_death():
     canvas.create_image(scr_w/2,scr_h/2+scr_h/15,image=ghost_img,tag='ghost')
     chore.SE('./music/SE/死亡時テキスト.mp3')
     narration('death')
-    stopper(1000)
     root.after(1000,reset)
 
 def reset():
@@ -174,7 +173,6 @@ def reset():
     condition = False
     chore.SE('./music/SE/打撃8.mp3')
     canvas.create_image(scr_w/2,scr_h/2,image=death_img,tag='death')
-    stopper(1000)
     root.after(1000,black_out)
 
 def black_out():
@@ -246,7 +244,7 @@ def map_change():
     map[5][12] = 'W'
     ghost_loc = [12,5]
     ghost_screen_loc = [375*scr_w/1200+11*208*scr_w/5000,1013*scr_h/2000]   #指定求む
-    chore.music_quit
+    chore.music_quit()
     chore.SE('./music/SE/ドアを蹴破る.mp3')
     root.after(1000,narration,'t2')
     root.after(2000,ghost_chase)
