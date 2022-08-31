@@ -17,6 +17,7 @@ data_dict = dictionary.data_dict
 map_move_list = ["A","B","G","I","M","l","C","D","W"]
 event_list = ["d","g","t","v","k","b","m","P","?","N","w"]
 walk_count = 0
+death_img = chore.resize('./img/screen/death.png',scr_w,scr_h)
 # 辞書の内容は[map_path,image_path,image_size,image_position,player_position,player_location]
  
 corrider_back_dict =dictionary.corrider_back_dict
@@ -169,9 +170,17 @@ def normal_death():
 def reset():
     global location_name, condition
     condition = False
+    chore.SE('./music/SE/打撃8.mp3')
+    canvas.create_image(scr_w/2,scr_h/2,image=death_img,tag='death')
+    root.after(1000,black_out)
+
+def black_out():
+    global location_name, condition
+    condition = False
     canvas.delete('all')
     chore.SE('./music/SE/打撃8.mp3')
     location_name = 'corrider'
+    canvas.create_image(scr_w/2,scr_h/2,image=death_img,tag='death')
     root.after(1000,set_up,location_name)
 
 def narration(signal):
@@ -236,11 +245,11 @@ def map_change():
     chore.SE('./music/SE/ドアを蹴破る.mp3')
     root.after(1000,narration,'t2')
     root.after(2000,ghost_chase)
+    root.after(2000,chore.BGM,'./music/SE/探索.mp3')
     
 def ghost_chase():
     global ghost_i, condition, ghost_screen_loc, ghost_img, walk_count
     ghost_i = 0
-    chore.BGM('./music/SE/探索.mp3')
     print(ghost_loc,player_loc)
     if player_loc[1] < ghost_loc[1]:    #Up
         ghost_loc[1] -= 1
@@ -271,6 +280,7 @@ def ghost_chase():
             global ghost_i, condition
             if not re.match('gym',location_name):
                 canvas.delete('ghost')
+                chore.BGM('./music/SE/探索.mp3')
             else:
                 canvas.delete('ghost')
                 ghost_screen_loc[1] += 135*scr_h/18000
@@ -290,6 +300,7 @@ def ghost_chase():
             global ghost_i, condition
             if not re.match('gym',location_name):
                 canvas.delete('ghost')
+                chore.BGM('./music/SE/探索.mp3')
             else:
                 canvas.delete('ghost')
                 ghost_screen_loc[0] += 208*scr_w/50000
@@ -309,6 +320,7 @@ def ghost_chase():
             global ghost_i, condition
             if not re.match('gym',location_name):
                 canvas.delete('ghost')
+                chore.BGM('./music/SE/探索.mp3')
             else:
                 canvas.delete('ghost')
                 ghost_screen_loc[0] -= 208*scr_w/50000
