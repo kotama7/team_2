@@ -166,6 +166,7 @@ def normal_death():
     canvas.create_image(scr_w/2,scr_h/2+scr_h/15,image=ghost_img,tag='ghost')
     chore.SE('./music/SE/死亡時テキスト.mp3')
     narration('death')
+    stopper(1000)
     root.after(1000,reset)
 
 def reset():
@@ -173,6 +174,7 @@ def reset():
     condition = False
     chore.SE('./music/SE/打撃8.mp3')
     canvas.create_image(scr_w/2,scr_h/2,image=death_img,tag='death')
+    stopper(1000)
     root.after(1000,black_out)
 
 def black_out():
