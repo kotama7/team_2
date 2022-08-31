@@ -45,8 +45,9 @@ def action(e):
             move_proc(key)
             walk_count += 1
             if map[player_loc[1]][player_loc[0]] == 'o':
-                tool.append("体育館")
-            if (walk_count % 100 == 0) and (location_name == 'corrider'):
+                if not "体育館" in tool:
+                    tool.append("体育館")
+            if (walk_count % 50 == 0) and (location_name == 'corrider'):
                 tool.append("歩数")
                 normal_death()
             if (walk_count > 100) and (location_name == 'corrider'):
@@ -128,6 +129,8 @@ def whole_map():
 def Jaby():
     if "教室" in tool:
         narration('tako_class')
+    elif "階段" in tool:
+        narration('tako_stairs')
     elif "職員室" in tool:
         narration('tako_teacher')
     elif "図書室" in tool:
