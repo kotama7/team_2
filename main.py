@@ -177,9 +177,9 @@ def black_out():
     global location_name, condition
     condition = False
     canvas.delete('all')
-    chore.SE('./music/SE/打撃8.mp3')
+    #chore.SE('./music/SE/打撃8.mp3')
     location_name = 'corrider'
-    canvas.create_image(scr_w/2,scr_h/2,image=death_img,tag='death')
+    #canvas.create_image(scr_w/2,scr_h/2,image=death_img,tag='death')
     root.after(1000,set_up,location_name)
 
 def narration(signal):
@@ -241,6 +241,7 @@ def map_change():
     map[5][12] = 'W'
     ghost_loc = [12,5]
     ghost_screen_loc = [375*scr_w/1200+11*208*scr_w/5000,1013*scr_h/2000]   #指定求む
+    chore.music_quit
     chore.SE('./music/SE/ドアを蹴破る.mp3')
     root.after(1000,narration,'t2')
     root.after(2000,ghost_chase)
@@ -556,13 +557,13 @@ root = tkinter.Tk()
 root.geometry(f'{scr_w}x{scr_h}')
 canvas = tkinter.Canvas(width=scr_w,height=scr_h,bg='black')
 canvas.pack()
-s_img_1 = chore.resize('./img/screen/スタート画面_学校.png',scr_w,scr_h)
+s_img_1 = chore.resize('./img/screen/スタート画面_めんだこ.png',scr_w,scr_h)
 canvas.create_image(scr_w/2,scr_h/2,image=s_img_1,tag='BG_start')
-b_img_1 = chore.resize('./img/buttun/new_game.png',scr_w/5,scr_h/10)
+b_img_1 = chore.resize('./img/buttun/start3.png',scr_w/5,scr_h/10)
 new_game_b = tkinter.Button(image=b_img_1,command=new_game)
 new_game_b.place(x=int(scr_w*0.4),y=int(scr_h*0.7))
 whole_map_img = chore.resize('./img/map/whole_map.png',scr_w,scr_h)
 textbox_img = chore.resize('./img/component/textbox.png',3*scr_w/4,scr_h/4)
 clear_img = chore.resize('./img/screen/クリア画面.png',scr_w,scr_h)
-death_img = chore.resize('./img/screen/death.png',scr_w,scr_h)
+death_img = chore.resize('./img/screen/death.png',scr_w,scr_h)        #death,death_2,death_3,death_4選択可能
 root.mainloop()
