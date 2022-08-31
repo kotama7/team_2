@@ -207,8 +207,8 @@ def develop(signal):
         narration('?2')
     if signal =='t':
         map_change()    #出口をNに書き換える、倉庫をWに書き換える、鬼ごっこ開始
-    #if signal == 'd':
-    #    password()  #パスワード入力、あっていたらnarration('d_OK')、まちがっていたらnarration('d_NG')
+    if signal == 'd':
+        password()  #パスワード入力、あっていたらnarration('d_OK')、まちがっていたらnarration('d_NG')
     if (signal == 'd') and ('教室の鍵' in tool) and ('体重計の鍵' in tool) and ('音楽室の鍵' in tool):
         narration('d_SOS')
     if signal == '?2':
@@ -223,15 +223,16 @@ def map_change():
     global ghost_loc, ghost_screen_loc
     map[5][1] = 'N'
     map[5][12] = 'W'
-    ghost_loc = [5,12]
+    ghost_loc = [12,5]
     ghost_screen_loc = [375*scr_w/1200+11*208*scr_w/5000,1013*scr_h/2000]   #指定求む
     chore.SE('./music/SE/ドアを蹴破る.mp3')
     root.after(1000,narration,'t2')
-    #root.after(1,ghost_chase)
+    root.after(2000,ghost_chase)
     
 def ghost_chase():
     global ghost_i, condition, ghost_screen_loc, ghost_img, walk_count
     ghost_i = 0
+    print(ghost_loc,player_loc)
     if player_loc[1] < ghost_loc[1]:    #Up
         ghost_loc[1] -= 1
         path = './img/ghost/back.png'
@@ -247,7 +248,7 @@ def ghost_chase():
                 canvas.create_image(ghost_screen_loc[0],ghost_screen_loc[1],image=ghost_img,tag='ghost')
                 ghost_i += 1
                 if ghost_i != 10:
-                    root.after(20,move_ghost)
+                    root.after(30,move_ghost)
                 else:
                     root.after(1,ghost_chase)
         move_ghost()
@@ -266,7 +267,7 @@ def ghost_chase():
                 canvas.create_image(ghost_screen_loc[0],ghost_screen_loc[1],image=ghost_img,tag='ghost')
                 ghost_i += 1
                 if ghost_i != 10:
-                    root.after(20,move_ghost)
+                    root.after(30,move_ghost)
                 else:
                     root.after(1,ghost_chase)
         move_ghost()
@@ -281,11 +282,11 @@ def ghost_chase():
                 canvas.delete('ghost')
             else:
                 canvas.delete('ghost')
-                ghost_screen_loc[0] += scr_w/360
+                ghost_screen_loc[0] += 208*scr_w/50000
                 canvas.create_image(ghost_screen_loc[0],ghost_screen_loc[1],image=ghost_img,tag='ghost')
                 ghost_i += 1
                 if ghost_i != 10:
-                    root.after(20,move_ghost)
+                    root.after(30,move_ghost)
                 else:
                     root.after(1,ghost_chase)
         move_ghost()
@@ -300,11 +301,11 @@ def ghost_chase():
                 canvas.delete('ghost')
             else:
                 canvas.delete('ghost')
-                ghost_screen_loc[0] -= scr_w/360
+                ghost_screen_loc[0] -= 208*scr_w/50000
                 canvas.create_image(ghost_screen_loc[0],ghost_screen_loc[1],image=ghost_img,tag='ghost')
                 ghost_i += 1
                 if ghost_i != 10:
-                    root.after(20,move_ghost)
+                    root.after(30,move_ghost)
                 else:
                     root.after(1,ghost_chase)
         move_ghost()  
@@ -330,9 +331,9 @@ def password():
     global condition, enter_button, textbox
     condition = False
     textbox = tkinter.Entry(width=40)
-    textbox.place(x=0,y=0)  #位置指定頼む 
+    textbox.place(x=2*scr_w/5,y=3*scr_h/5)  #位置指定頼む 
     enter_button = tkinter.Button(text='OK!',command=verify)
-    enter_button.place(x=0,y=0)
+    enter_button.place(x=scr_w/2,y=2*scr_h/3)
 
 
 def map_delete():

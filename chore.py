@@ -14,7 +14,7 @@ def BGM(path):    #BGMの再生
         pass
     mixer.init()
     mixer.music.load(path)
-    mixer.music.play(loops=0)
+    mixer.music.play(loops=-1)
 
 def music_quit():
     mixer.quit()
