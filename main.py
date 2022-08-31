@@ -522,6 +522,7 @@ def move_proc(key):
 def back_corrider_setup(location):
     global map, map_img, player_img, boo, player_loc, tile_x, tile_y, map_position, player_screen_loc
     data = copy.deepcopy(corrider_back_dict[location])
+    canvas.delete('all')
     map = chore.roommaker('./data/corrider.txt')
     map_img = chore.resize('./img/map/corrider.png',2*scr_w,2*scr_h)
     player_screen_loc = copy.copy(data[0])
