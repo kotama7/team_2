@@ -148,6 +148,7 @@ def normal_death():
     global walk_count, condition, ghost_img
     walk_count = 0
     condition = False
+    chore.music_quit()
     ghost_img = chore.resize('./img/ghost/back.png',scr_w/13,scr_h/13)
     canvas.create_image(scr_w/2,scr_h/2+scr_h/15,image=ghost_img,tag='ghost')
     chore.SE('./music/SE/死亡時テキスト.mp3')
@@ -207,8 +208,8 @@ def develop(signal):
         map_change()    #出口をNに書き換える、倉庫をWに書き換える、鬼ごっこ開始
     if signal == 'd':
         password()  #パスワード入力、あっていたらnarration('d_OK')、まちがっていたらnarration('d_NG')
-    if (signal == 'd') and ('教室の鍵' in tool) and ('体重計の鍵' in tool) and ('音楽室の鍵' in tool):
-        narration('d_SOS')
+    #if (signal == 'd') and ('教室の鍵' in tool) and ('体重計の鍵' in tool) and ('音楽室の鍵' in tool):
+    #    narration('d_SOS')
     if signal == '?2':
         global condition
         condition = False
@@ -503,8 +504,10 @@ def back_corrider_setup(location):
     boo = True
 
 def set_up(location):    #場面転換
-    global map, map_img, player_img, boo, player_loc, tile_x, tile_y, map_position, player_screen_loc, condition
+    global map, map_img, player_img, boo, player_loc, tile_x, tile_y, map_position, player_screen_loc, condition, walk_count
     condition = True
+    if walk_count == 0:
+        chore.BGM('./music/SE/探索.mp3')
     data = copy.deepcopy(data_dict[location])
     map = chore.roommaker(data[0])
     map_img = chore.resize(data[1],data[2][0],data[2][1])
@@ -521,7 +524,7 @@ def set_up(location):    #場面転換
     else:
         boo = False
 
-chore.BGM('./music/SE/探索.mp3')
+#chore.BGM('./music/SE/探索.mp3')
 root = tkinter.Tk()
 root.geometry(f'{scr_w}x{scr_h}')
 canvas = tkinter.Canvas(width=scr_w,height=scr_h,bg='black')
