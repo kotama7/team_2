@@ -32,7 +32,6 @@ def new_game(): #最初のスタート画面
     root.bind('<KeyPress>',push)
     root.bind('<KeyRelease>',action)
 
-
 def push(e):
     global key
     key = e.keysym
@@ -163,7 +162,6 @@ def reset():
     location_name = 'corrider'
     root.after(1000,set_up,location_name)
 
-
 def narration(signal):
     global condition
     def text_flow(counter):
@@ -216,9 +214,7 @@ def develop(signal):
         condition = False
         canvas.create_image(scr_w/2,45*scr_h/100,image=clear_img,tag='Clear')
         chore.SE('./music/SE/レベルアップ.mp3')
-        
-    
-    
+          
 def map_change():
     global ghost_loc, ghost_screen_loc
     map[5][1] = 'N'
@@ -326,7 +322,6 @@ def verify():
     else:
         narration('d_NG')
 
-
 def password():
     global condition, enter_button, textbox
     condition = False
@@ -334,7 +329,6 @@ def password():
     textbox.place(x=2*scr_w/5,y=3*scr_h/5)  #位置指定頼む 
     enter_button = tkinter.Button(text='OK!',command=verify)
     enter_button.place(x=scr_w/2,y=2*scr_h/3)
-
 
 def map_delete():
     global condition

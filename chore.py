@@ -13,8 +13,9 @@ def BGM(path):    #BGMの再生
     except:
         pass
     mixer.init()
-    mixer.music.load(path)
-    mixer.music.play(loops=-1)
+    BGM = mixer.Sound(path)
+    channel = mixer.Channel(0)
+    channel.play(BGM,loops=-1)
 
 def music_quit():
     mixer.quit()
@@ -27,5 +28,6 @@ def roommaker(path):    #mapの作成
     return map
 
 def SE(path):   #効果音の再生
-    mixer.music.load(path)
-    mixer.music.play()
+    SE = mixer.Sound(path)
+    channel = mixer.Channel(1)
+    channel.play(SE)
