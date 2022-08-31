@@ -81,6 +81,7 @@ def action(e):
             elif map[player_loc[1]][player_loc[0]] == 'E':
                 if "体育館" in tool:
                     walk_count = 99
+                    tool.remove("ボール")
                 chore.SE('./music/SE/ドアを開ける.mp3')
                 screen_change_check()
             elif (map[player_loc[1]][player_loc[0]] == 'L') or (map[player_loc[1]][player_loc[0]] == 'R'):
