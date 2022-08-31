@@ -48,7 +48,7 @@ def action(e):
                 if not "体育館" in tool:
                     tool.append("体育館")
             if (walk_count % 50 == 0) and (location_name == 'corrider'):
-                if "歩数" in tool:
+                if not "歩数" in tool:
                     tool.append("歩数")
                 stopper(2000)
                 root.after(2000,normal_death)
