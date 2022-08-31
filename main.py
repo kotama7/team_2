@@ -227,12 +227,13 @@ def develop(signal):
         map_change()    #出口をNに書き換える、倉庫をWに書き換える、鬼ごっこ開始
     if signal == 'd':
         password()  #パスワード入力、あっていたらnarration('d_OK')、まちがっていたらnarration('d_NG')
-    if (signal == 'd') and ('教室の鍵' in tool) and ('体重計の鍵' in tool) and ('音楽室の鍵' in tool):
-        narration('d_SOS')
+    #if (signal == 'd') and ('教室の鍵' in tool) and ('体重計の鍵' in tool) and ('音楽室の鍵' in tool):
+    #    narration('d_SOS')
     if signal == '?2':
         global condition
         condition = False
         canvas.create_image(scr_w/2,45*scr_h/100,image=clear_img,tag='Clear')
+        chore.music_quit()
         chore.SE('./music/BGM/教会の祈り.mp3')
           
 def map_change():
@@ -245,7 +246,7 @@ def map_change():
     chore.SE('./music/SE/ドアを蹴破る.mp3')
     root.after(1000,narration,'t2')
     root.after(2000,ghost_chase)
-    root.after(2000,chore.BGM,'./music/SE/探索.mp3')
+    root.after(2000,chore.BGM,'./music/SE/Chase_music.mp3')
     
 def ghost_chase():
     global ghost_i, condition, ghost_screen_loc, ghost_img, walk_count
@@ -565,5 +566,5 @@ new_game_b.place(x=int(scr_w*0.4),y=int(scr_h*0.7))
 whole_map_img = chore.resize('./img/map/whole_map.png',scr_w,scr_h)
 textbox_img = chore.resize('./img/component/textbox.png',3*scr_w/4,scr_h/4)
 clear_img = chore.resize('./img/screen/クリア画面.png',scr_w,scr_h)
-death_img = chore.resize('./img/screen/death.png',scr_w,scr_h)        #death,death_2,death_3,death_4選択可能
+death_img = chore.resize('./img/screen/death_4.png',scr_w,scr_h)        #death,death_2,death_3,death_4選択可能
 root.mainloop()
