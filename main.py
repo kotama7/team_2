@@ -17,7 +17,6 @@ data_dict = dictionary.data_dict
 map_move_list = ["A","B","G","I","M","l","C","D","W"]
 event_list = ["d","g","t","v","k","b","m","P","?","N","w"]
 walk_count = 0
-death_img = chore.resize('./img/screen/death.png',scr_w,scr_h)
 # 辞書の内容は[map_path,image_path,image_size,image_position,player_position,player_location]
  
 corrider_back_dict =dictionary.corrider_back_dict
@@ -565,4 +564,5 @@ new_game_b.place(x=int(scr_w*0.4),y=int(scr_h*0.7))
 whole_map_img = chore.resize('./img/map/whole_map.png',scr_w,scr_h)
 textbox_img = chore.resize('./img/component/textbox.png',3*scr_w/4,scr_h/4)
 clear_img = chore.resize('./img/screen/クリア画面.png',scr_w,scr_h)
+death_img = chore.resize('./img/screen/death.png',scr_w,scr_h)
 root.mainloop()
