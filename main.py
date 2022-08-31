@@ -48,7 +48,8 @@ def action(e):
                 if not "体育館" in tool:
                     tool.append("体育館")
             if (walk_count % 50 == 0) and (location_name == 'corrider'):
-                tool.append("歩数")
+                if "歩数" in tool:
+                    tool.append("歩数")
                 stopper(2000)
                 root.after(2000,normal_death)
             if (walk_count > 100) and (location_name == 'corrider'):
@@ -81,7 +82,8 @@ def action(e):
             elif map[player_loc[1]][player_loc[0]] == 'E':
                 if "体育館" in tool:
                     walk_count = 99
-                    tool.remove("ボール")
+                    if "ボール" in tool:
+                        tool.remove("ボール")
                 chore.SE('./music/SE/ドアを開ける.mp3')
                 screen_change_check()
             elif (map[player_loc[1]][player_loc[0]] == 'L') or (map[player_loc[1]][player_loc[0]] == 'R'):
@@ -157,6 +159,7 @@ def normal_death():
     global walk_count, condition, ghost_img
     walk_count = 0
     condition = False
+    chore.music_quit()
     ghost_img = chore.resize('./img/ghost/back.png',scr_w/13,scr_h/13)
     canvas.create_image(scr_w/2,scr_h/2+scr_h/15,image=ghost_img,tag='ghost')
     chore.SE('./music/SE/死亡時テキスト.mp3')
@@ -222,7 +225,7 @@ def develop(signal):
         global condition
         condition = False
         canvas.create_image(scr_w/2,45*scr_h/100,image=clear_img,tag='Clear')
-        chore.SE('./music/SE/レベルアップ.mp3')
+        chore.SE('./music/BGM/教会の祈り.mp3')
           
 def map_change():
     global ghost_loc, ghost_screen_loc
@@ -237,6 +240,7 @@ def map_change():
 def ghost_chase():
     global ghost_i, condition, ghost_screen_loc, ghost_img, walk_count
     ghost_i = 0
+    chore.BGM('./music/SE/探索.mp3')
     print(ghost_loc,player_loc)
     if player_loc[1] < ghost_loc[1]:    #Up
         ghost_loc[1] -= 1
@@ -247,6 +251,7 @@ def ghost_chase():
             global ghost_i, condition
             if not re.match('gym',location_name):
                 canvas.delete('ghost')
+                chore.BGM('./music/SE/探索.mp3')
             else:
                 canvas.delete('ghost')
                 ghost_screen_loc[1] -= 135*scr_h/18000
@@ -319,6 +324,9 @@ def ghost_chase():
         canvas.delete('Player')
         condition = False
         walk_count = 0
+        chore.music_quit()
+        if not "鬼ごっこ" in tool:
+            tool.append("鬼ごっこ")
         reset()
 
 def verify():
@@ -512,8 +520,10 @@ def back_corrider_setup(location):
     boo = True
 
 def set_up(location):    #場面転換
-    global map, map_img, player_img, boo, player_loc, tile_x, tile_y, map_position, player_screen_loc, condition
+    global map, map_img, player_img, boo, player_loc, tile_x, tile_y, map_position, player_screen_loc, condition, walk_count
     condition = True
+    if walk_count == 0:
+        chore.BGM('./music/SE/探索.mp3')
     data = copy.deepcopy(data_dict[location])
     map = chore.roommaker(data[0])
     map_img = chore.resize(data[1],data[2][0],data[2][1])
@@ -530,7 +540,7 @@ def set_up(location):    #場面転換
     else:
         boo = False
 
-chore.BGM('./music/SE/探索.mp3')
+chore.BGM('./music/BGM/natsunokiri.mp3')
 root = tkinter.Tk()
 root.geometry(f'{scr_w}x{scr_h}')
 canvas = tkinter.Canvas(width=scr_w,height=scr_h,bg='black')
