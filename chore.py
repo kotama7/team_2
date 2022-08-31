@@ -28,6 +28,10 @@ def roommaker(path):    #mapの作成
     return map
 
 def SE(path):   #効果音の再生
-    SE = mixer.Sound(path)
+    try:
+        SE = mixer.Sound(path)
+    except:
+        mixer.init()
+        SE = mixer.Sound(path)
     channel = mixer.Channel(1)
     channel.play(SE)
