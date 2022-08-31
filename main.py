@@ -14,7 +14,7 @@ player_img = tkinter.PhotoImage
 boo = True  #screenのscrollのbool値
 scr_w,scr_h= pyautogui.size()
 data_dict = dictionary.data_dict
-map_move_list = ["A","B","G","I","M","l"]
+map_move_list = ["A","B","G","I","M","l","C","D","W"]
 event_list = ["d","g","t","v","k","b","m","P","?","N","w"]
 walk_count = 0
 # 辞書の内容は[map_path,image_path,image_size,image_position,player_position,player_location]
@@ -68,6 +68,13 @@ def action(e):
                 if "本" in tool:
                     walk_count = 99
                     tool.remove("本")
+                    if not '図書室' in tool:
+                        tool.append('図書室')
+                chore.SE('./music/SE/ドアを開ける.mp3')
+                screen_change_check()
+            elif (map[player_loc[1]][player_loc[0]] == 'Q') or (map[player_loc[1]][player_loc[0]] == 'U'):
+                walk_count = 99
+                tool.append("教室")
                 chore.SE('./music/SE/ドアを開ける.mp3')
                 screen_change_check()
             elif map[player_loc[1]][player_loc[0]] == 'E':
@@ -75,6 +82,10 @@ def action(e):
                     walk_count = 99
                 chore.SE('./music/SE/ドアを開ける.mp3')
                 screen_change_check()
+            elif (map[player_loc[1]][player_loc[0]] == 'L') or (map[player_loc[1]][player_loc[0]] == 'R'):
+                if not "職員室" in tool:
+                    tool.append("職員室")
+                normal_death()
             
             elif map[player_loc[1]][player_loc[0]] == 'Y':
                 chore.SE('./music/SE/ドアを開ける.mp3')
@@ -90,10 +101,7 @@ def action(e):
                 if not "階段" in tool:
                     tool.append("階段")
                 normal_death()
-            if (map[player_loc[1]][player_loc[0]] == 'L') or (map[player_loc[1]][player_loc[0]] == 'R'):
-                if not "職員室" in tool:
-                    tool.append("職員室")
-                normal_death()
+            
         if key == 'k':
             if (map[player_loc[1]][player_loc[0]] == "L") or (map[player_loc[1]][player_loc[0]] == "R"):
                 chore.SE('./music/SE/木のドアをノック1.mp3')
@@ -138,7 +146,7 @@ def normal_death():
     walk_count = 0
     condition = False
     ghost_img = chore.resize('./img/ghost/back.png',scr_w/13,scr_h/13)
-    canvas.create_image(player_screen_loc[0],player_screen_loc[1]+scr_h/15,image=ghost_img,tag='ghost')
+    canvas.create_image(scr_w/2,scr_h/2+scr_h/15,image=ghost_img,tag='ghost')
     chore.SE('./music/SE/死亡時テキスト.mp3')
     narration('death')
     root.after(1000,reset)
@@ -195,8 +203,16 @@ def develop(signal):
         narration('?2')
     if signal =='t':
         map_change()    #出口をNに書き換える、倉庫をWに書き換える、鬼ごっこ開始
-    if signal == 'd':
-        password()  #パスワード入力、あっていたらnarration('d_OK')、まちがっていたらnarration('d_NG')
+    #if signal == 'd':
+    #    password()  #パスワード入力、あっていたらnarration('d_OK')、まちがっていたらnarration('d_NG')
+    if (signal == 'd') and ('教室の鍵' in tool) and ('体重計の鍵' in tool) and ('音楽室の鍵' in tool):
+        narration('d_SOS')
+    if signal == '?2':
+        global condition
+        condition = False
+        canvas.create_image(scr_w/2,45*scr_h/100,image=clear_img,tag='Clear')
+        chore.SE('./music/SE/レベルアップ.mp3')
+        
     
     
 def map_change():
@@ -206,7 +222,8 @@ def map_change():
     ghost_loc = [5,12]
     ghost_screen_loc = [375*scr_w/1200+11*208*scr_w/5000,1013*scr_h/2000]   #指定求む
     chore.SE('./music/SE/ドアを蹴破る.mp3')
-    root.after(1,ghost_chase)
+    root.after(1000,narration,'t2')
+    #root.after(1,ghost_chase)
     
 def ghost_chase():
     global ghost_i, condition, ghost_screen_loc, ghost_img, walk_count
@@ -517,4 +534,5 @@ new_game_b = tkinter.Button(image=b_img_1,command=new_game)
 new_game_b.place(x=int(scr_w*0.4),y=int(scr_h*0.7))
 whole_map_img = chore.resize('./img/map/whole_map.png',scr_w,scr_h)
 textbox_img = chore.resize('./img/component/textbox.png',3*scr_w/4,scr_h/4)
+clear_img = chore.resize('./img/screen/クリア画面.png',scr_w,scr_h)
 root.mainloop()

@@ -36,9 +36,19 @@ def check(number,location):
             return True, 'class_room_A_left', True
         else:
             return True, 'corrider', False
+    if number == 'Q':
+        if location == 'corrider':
+            return True, 'class_room_A_right', True
+        else:
+            return True, 'corrider', False
     if number == 'B':
         if location == 'corrider':
             return True, 'class_room_B_left', True
+        else:
+            return True, 'corrider', False
+    if number == 'U':
+        if location == 'corrider':
+            return True, 'class_room_B_right', True
         else:
             return True, 'corrider', False
     if number == 'I':
@@ -51,7 +61,17 @@ def check(number,location):
             return True, 'staff_room_left', True
         else:
             return True, 'corrider', False
+    if number == 'C':
+        if location == 'corrider':
+            return True, 'staff_room_left', True
+        else:
+            return True, 'corrider', False
     if number == 'R':
+        if location == 'corrider':
+            return True, 'staff_room_right', True
+        else:
+            return True, 'corrider', False
+    if number == 'D':
         if location == 'corrider':
             return True, 'staff_room_right', True
         else:
